@@ -6,12 +6,12 @@
 	<define name="root">
 		<element name="flightsTracking">
 			<interleave>
-				<zeroOrMore>
+				<optional>
 					<ref name="flights"/>
-				</zeroOrMore>
-				<zeroOrMore>
+				</optional>
+				<optional>
 					<ref name="locations"/>
-				</zeroOrMore>
+				</optional>
 			</interleave>
 		</element>
 	</define>
@@ -66,22 +66,25 @@
 			</attribute>
 			<interleave>
 				<element name="airport">
-					<attribute name="name">
+					<attribute name="code">
 						<data type="string">
 							<param name="pattern">[A-Z]{3}</param>
 						</data>
 					</attribute>
 				</element>
+				<element name="city">
+					<text/>
+				</element>
+				<element name="name">
+					<text/>
+				</element>				
 				<optional>
 					<element name="gate">
 						<attribute name="name">
-							<data type="string"/>
+							<text/>
 						</attribute>
 					</element>
 				</optional>
-				<element name="description">
-					<text/>
-				</element>
 			</interleave>
 		</element>
 	</define>

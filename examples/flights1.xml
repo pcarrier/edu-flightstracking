@@ -20,9 +20,8 @@
 	</flights>
 	<locations>
 		<location name="ORYW">
-			<airport name="ORY"/>
+			<airport code="ORY" name="Orly" city="Paris" />
 			<gate name="W"/>
-			<description>Paris, Orly (ORY) - France</description>
 		</location>
 		<location name="NCY">
 			<airport name="NCY"/>
