@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flightsTracking xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+	<flights>
+		<flight name="AF5921" status="canceled">
+			<departure datetime="2008-11-03T07:55:00Z" location="ORYW"/>
+			<arrival datetime="2008-11-03T09:15:00Z" location="NCY"/>
+		</flight>
+		<flight name="AF5927" status="pending">
+			<departure datetime="2008-11-03T15:25:00Z" location="ORYW"/>
+			<arrival datetime="2008-11-03T16:40:00Z" location="NCY"/>
+		</flight>
+		<flight name="AF5927" status="flying">
+			<departure datetime="2008-11-03T11:30:00Z" location="ORYW"/>
+			<arrival datetime="2008-11-03T12:50:00Z" location="NCY"/>
+		</flight>
+		<flight name="AF5927" status="pending">
+			<departure datetime="2008-11-03T19:25:00Z" location="ORYW"/>
+			<arrival datetime="2008-11-03T20:45:00Z" location="NCY"/>
+		</flight>
+	</flights>
+	<locations>
+		<location name="ORYW">
+			<airport name="ORY"/>
+			<gate name="W"/>
+			<description>Paris, Orly (ORY) - France</description>
+		</location>
+		<location name="NCY">
+			<airport name="NCY"/>
+			<description>Annecy, Annecy Meythet (NCY) - France</description>
+		</location>
+	</locations>
+</flightsTracking>

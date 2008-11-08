@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://snibbits.net/~gcarrier/ns/tracking" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	<start>
+		<ref name="root"/>
+	</start>
+	<define name="root">
+		<element name="flightsTracking">
+			<interleave>
+				<zeroOrMore>
+					<ref name="flights"/>
+				</zeroOrMore>
+				<zeroOrMore>
+					<ref name="locations"/>
+				</zeroOrMore>
+			</interleave>
+		</element>
+	</define>
+	<define name="flights">
+		<element name="flights">
+			<zeroOrMore>
+				<ref name="flight"/>
+			</zeroOrMore>
+		</element>
+	</define>
+	<define name="flight">
+		<element name="flight">
+			<attribute name="name">
+				<data type="string">
+					<param name="pattern">[A-Z]{2}[0-9]{4}</param>
+				</data>
+			</attribute>
+			<attribute name="status">
+				<data type="string">
+					<param name="pattern">pending|flying|canceled</param>
+				</data>
+			</attribute>
+			<element name="departure">
+				<ref name="endsAttribs"/>
+			</element>
+			<element name="arrival">
+				<ref name="endsAttribs"/>
+			</element>
+		</element>
+	</define>
+	<define name="endsAttribs">
+		<interleave>
+			<attribute name="datetime">
+				<data type="dateTime"/>
+			</attribute>
+			<attribute name="location">
+				<text/> <!-- TO BE FIXED -->
+			</attribute>
+		</interleave>
+	</define>
+	<define name="locations">
+		<element name="locations">
+			<zeroOrMore>
+				<ref name="location"/>
+			</zeroOrMore>
+		</element>
+	</define>
+	<define name="location">
+		<element name="location">
+			<attribute name="name">
+					<data type="NCName"/>
+			</attribute>
+			<interleave>
+				<element name="airport">
+					<attribute name="name">
+						<data type="string">
+							<param name="pattern">[A-Z]{3}</param>
+						</data>
+					</attribute>
+				</element>
+				<optional>
+					<element name="gate">
+						<attribute name="name">
+							<data type="string"/>
+						</attribute>
+					</element>
+				</optional>
+				<element name="description">
+					<text/>
+				</element>
+			</interleave>
+		</element>
+	</define>
+</grammar>
