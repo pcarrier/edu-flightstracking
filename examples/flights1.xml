@@ -20,12 +20,11 @@
 	</flights>
 	<locations>
 		<location name="ORYW">
-			<airport code="ORY" name="Orly" city="Paris" />
+			<airport code="ORY" name="Orly" city="Paris" country="France" />
 			<gate name="W"/>
 		</location>
 		<location name="NCY">
-			<airport name="NCY"/>
-			<description>Annecy, Annecy Meythet (NCY) - France</description>
+			<airport code="NCY" name="Annecy Meythet" city="Annecy" country="France" />
 		</location>
 	</locations>
 </flightsTracking>

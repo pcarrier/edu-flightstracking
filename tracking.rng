@@ -66,18 +66,23 @@
 			</attribute>
 			<interleave>
 				<element name="airport">
-					<attribute name="code">
-						<data type="string">
-							<param name="pattern">[A-Z]{3}</param>
-						</data>
-					</attribute>
+					<interleave>
+						<attribute name="code">
+							<data type="string">
+								<param name="pattern">[A-Z]{3}</param>
+							</data>
+						</attribute>
+						<attribute name="name">
+							<text/>
+						</attribute>
+						<attribute name="city">
+							<text/>
+						</attribute>
+						<attribute name="country">
+							<text/>
+						</attribute>
+					</interleave>
 				</element>
-				<element name="city">
-					<text/>
-				</element>
-				<element name="name">
-					<text/>
-				</element>				
 				<optional>
 					<element name="gate">
 						<attribute name="name">
