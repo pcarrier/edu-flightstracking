@@ -2,7 +2,9 @@
 import httplib, urllib
 import sys
 from xml.dom import minidom
-import time
+import libxml2
+import os
+
 GSERVER="maps.google.com"
 GAPP="/maps/geo"
 FORMATS=['xml',]
@@ -34,7 +36,9 @@ def getResponse(place,output='xml'):
         return "Error"
 def getAirportAdress(filein):
     #TODO: 
-    # Parser le doc xml, recupere l'adresse 
+    # Parser le doc xml, recupere l'adresse
+    if os.path.exists(filein):
+        pass
     return "49 rue General FERRIE, Grenoble"
 
 def parseResponse(response):
