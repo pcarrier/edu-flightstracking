@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*- 
 import httplib, urllib
 import sys
-from xml.dom import minidom
-import libxml2
+import lxml
 import os
 
 GSERVER="maps.google.com"
