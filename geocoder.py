@@ -9,7 +9,6 @@ GSERVER="maps.google.com"
 GAPP="/maps/geo"
 FORMATS=['xml',]
 
-
 def getResponse(place,output='xml'):
     if not place=='':
         #if output not in FORMATS:
