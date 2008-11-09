@@ -1,27 +1,35 @@
 import lxml
 import re
 
+nspattern="(\{.*\}){0,1}"
 class PlaceTime:
     timestamp=""
     location=""
-    def __init__(self):
-        pass
     def __init__(self, node):
-        pass
+        if not "timestamp" in node.keys():
+            raise Exception,"PlaceTime Attribute ERROR : a PlaceTime node may have a 'timestamp' attribute."
+        if not "location" in node.keys():
+            raise Exception,"PlaceTime Attribute ERROR : a PlaceTime node may have a 'location' attribute."
+        # List comprehension + instrospection = :)
+        [setattr(self, attr,value) for attr,value in node.items()]
     
 class Departure (PlaceTime):
     def __init__(self, node):
-        if node.tag=="departure":
-            PlaceTime.__init__(self, node)
+        
+        pattern=nspattern+"departure"
+        if not re.match(pattern, node.tag):
+            raise Exception,"Departure Node ERROR : %s not allowed here"%node.tag          
         else:
-            raise Exception,"Node ERROR"
+            PlaceTime.__init__(self, node)
+        
 
 class Arrival (PlaceTime):
     def __init__(self, node):
-        if node.tag=="arrival":
-            PlaceTime.__init__(self, node)
+        pattern=nspattern+"arrival"
+        if not re.match(pattern, node.tag):
+            raise Exception,"Arrival Node ERROR : %s not allowed here"%node.tag          
         else:
-            raise Exception,"Node ERROR"
+            PlaceTime.__init__(self, node)
 
 class Airport:
     code=""
@@ -61,7 +69,7 @@ class Flight:
         #TODO : a better way to find the tag without the namespace
     
         # tag with namespace pattern like {namespace}tag
-        pattern="(\{.*\}){0,1}flight"
+        pattern=nspattern+"flight"
         
         #the if statement in comment Works just without namespace
         #if not node.tag=="flight":
