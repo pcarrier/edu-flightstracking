@@ -32,6 +32,11 @@ Assurance qualité
 
 Le choix s'est porté sur la réalisation de tests unitaires à l'aide du module ``unittest``.
 
+Interface
+---------
+
+Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées.
+
 Performance
 -----------
 
