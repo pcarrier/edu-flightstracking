@@ -59,15 +59,43 @@ class Airport(Mappable):
     
 class Location(Mappable):
     name=""
-    airport=None
-    gate=""
+    __airport__=None
+    __gate__=""
+    __ns__=None
     def __init__(self):
         pass
     def __init__(self, node):
-        if node.tag=="location":
-            super(Location,self).__init__(node)
+        pattern=nspattern+"location"
+        if not re.match(pattern, node.tag):
+            raise Exception,"Location Node ERROR : %s not allowed here"%node.tag
         else:
-            raise Exception,"Node ERROR"
+            super(Location,self).__init__(node)
+            # Trying to find the namespace (uggly way)
+            c=re.compile(nspattern)
+            m=c.match(node.tag)
+            if m:
+                if m.group()!='' and m.group()!=None:
+                    self.__ns__=m.group()
+                    self.__ns__=self.__ns__.strip('{}')
+                    
+            #We have a namespace, modifying XPATH query in consequence
+            if self.__ns__ is  not None and self.__ns__ is not '':
+                gateXp="//f:gate"
+                airXp="//f:airport"
+                gateNode=node.xpath(gateXp,namespaces={"f":self.__ns__})
+                airNode=node.xpath(airXp,namespaces={"f":self.__ns__})
+            #we don't have a namsepace, simple XPATH query
+            else:
+                gateXp="//gate"
+                airXp="//airport"
+                gateNode=node.xpath(gateXp)
+                airNode=node.xpath(airXp)
+            if len(gateNode)==1:
+                self.__gate__=gateNode[0].get("name")
+            if not len(airNode)==1:
+                raise Exception, "A location may be instanciated with a node containig an <airport/> child."
+            else:
+                self.__airport__=Airport(airNode[0])
 
 class Flight(Mappable):
     name=""
@@ -87,6 +115,7 @@ class Flight(Mappable):
         if not re.match(pattern, node.tag):
             raise Exception,"Flight Node ERROR : %s not allowed here"%node.tag          
         else:
+            super(Flight,self).__init__(node)
             # Trying to find the namespace (uggly way)
             c=re.compile(nspattern)
             m=c.match(node.tag)
@@ -95,7 +124,6 @@ class Flight(Mappable):
                     self.__ns__=m.group()
                     self.__ns__=self.__ns__.strip('{}')
                     
-            super(Flight,self).__init__(node)
             
             #We have a namespace, modifying XPATH query in consequence
             if self.__ns__ is  not None and self.__ns__ is not '':
