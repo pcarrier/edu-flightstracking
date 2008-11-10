@@ -35,7 +35,7 @@ Le choix s'est porté sur la réalisation de tests unitaires à l'aide du module
 Interface
 ---------
 
-Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées.
+Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous nous sommes orientés vers Google Web Toolkit pour les excellentes Google API Libraries for Google Web Toolkit qui permettent l'intégration de Google Maps.
 
 Performance
 -----------
