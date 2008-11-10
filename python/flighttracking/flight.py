@@ -3,20 +3,28 @@ from lxml import etree
 import re
 
 nspattern="(\{.*\}){0,1}"
-class PlaceTime:
+
+class Mappable(object):
+    def __init__(self, node):
+        #Getting all declared attributes
+        attList = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and not att.startswith("__")]
+        #Cheking ifattributes are present in XML node
+        for att in attList:
+            if not att in node.keys():
+                raise Exception,"%s Attribute ERROR : a %s object may be construct with node who have a '%s' attribute."%(self.__class__,self.__class__,att)
+        [setattr(self, attr,value) for attr,value in node.items()]
+        
+        
+class PlaceTime(Mappable):
     datetime=""
     location=""
     def __init__(self, node):
-        if not "datetime" in node.keys():
-            raise Exception,"PlaceTime Attribute ERROR : a PlaceTime node may have a 'datetime' attribute."
-        if not "location" in node.keys():
-            raise Exception,"PlaceTime Attribute ERROR : a PlaceTime node may have a 'location' attribute."
+        super(PlaceTime,self).__init__(node)        
         # List comprehension + instrospection = :)
-        [setattr(self, attr,value) for attr,value in node.items()]
+        
     
 class Departure (PlaceTime):
     def __init__(self, node):
-        
         pattern=nspattern+"departure"
         if not re.match(pattern, node.tag):
             raise Exception,"Departure Node ERROR : %s not allowed here"%node.tag          
@@ -32,23 +40,24 @@ class Arrival (PlaceTime):
         else:
             PlaceTime.__init__(self, node)
 
-class Airport:
+class Airport(Mappable):
     code=""
     name=""
     city=""
     country=""
     
     def __init__(self, node):
-        if node.tag=="airport":
-            pass
-        else:
+        pattern=nspattern+"airport"
+        if not re.match(pattern, node.tag):
             raise Exception,"Node ERROR"
-        
+        else:
+            super(Airport,self).__init__(node)
+            
     def __unicode__(self):
         return "%s, %s, %s" % (self.name,self.city, self.country)
         
     
-class Location:
+class Location(Mappable):
     name=""
     airport=None
     gate=""
@@ -56,16 +65,16 @@ class Location:
         pass
     def __init__(self, node):
         if node.tag=="location":
-            pass
+            super(Location,self).__init__(node)
         else:
             raise Exception,"Node ERROR"
 
-class Flight:
+class Flight(Mappable):
     name=""
     status=""
-    departure=None
-    arrival=None
-    ns=None
+    __departure__=None
+    __arrival__=None
+    __ns__=None
     def __init__(self, node):
         """If it's not the good node name"""
         #TODO : a better way to find the tag without the namespace
@@ -83,31 +92,25 @@ class Flight:
             m=c.match(node.tag)
             if m:
                 if m.group()!='' and m.group()!=None:
-                    self.ns=m.group()
-                    self.ns=self.ns.strip('{}')
-                else:
-                    print "Can't find ns"
+                    self.__ns__=m.group()
+                    self.__ns__=self.__ns__.strip('{}')
                     
-            """If node don't contains expected attributes"""
-            if not "name" in node.keys():
-                raise Exception,"Attribute ERROR"
-            if not "status" in node.keys():
-                raise Exception,"Attribute ERROR"
-            # List comprehension + instrospection = :)
-            [setattr(self, attr,value) for attr,value in node.items()]
+            super(Flight,self).__init__(node)
             
             #We have a namespace, modifying XPATH query in consequence
-            if self.ns is  not None and self.ns is not '':
+            if self.__ns__ is  not None and self.__ns__ is not '':
                 depXp="//f:departure"
                 arXp="//f:arrival"
-                depNode=node.xpath(depXp,namespaces={"f":self.ns})
-                arNode=node.xpath(arXp,namespaces={"f":self.ns})
+                depNode=node.xpath(depXp,namespaces={"f":self.__ns__})
+                arNode=node.xpath(arXp,namespaces={"f":self.__ns__})
             #we don't have a namsepace, simple XPATH query
             else:
                 depXp="//departure"
                 arXp="//arrival"
                 depNode=node.xpath(depXp)
                 arNode=node.xpath(arXp)
+            
+            #Creating the departure and arrival objects
             self.departure=Departure(depNode[0])
             self.arrival=Arrival(arNode[0])
             
