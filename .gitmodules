@@ -1,6 +1,3 @@
 [submodule "webpy"]
-	path = webpy
-	url = git://github.com/webpy/webpy.git
-[submodule "python/webpy"]
 	path = python/webpy
 	url = git://github.com/webpy/webpy.git
