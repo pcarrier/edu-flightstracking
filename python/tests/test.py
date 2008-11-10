@@ -138,7 +138,7 @@ class FlightTest(unittest.TestCase):
         node=etree.fromstring(nodeText)
         a= Airport(node)
         
-        for attr,value in node.items(): 
+        for attr,value in node.items():
             if getattr(a,attr)!=node.get(attr):
                 raise Exception , "Mapping problem : value of attribute '%s' is different than 'Airport.%s'"%(attr,attr)
     
@@ -162,8 +162,144 @@ class FlightTest(unittest.TestCase):
                 '''
         node=etree.fromstring(nodeText)
         self.assertRaises(Exception, Airport,node)
+        
+    def testLocationConstructor1(self):
+        """ Test Location.__init__() with a complete node, with no namespace and no sub node 'gate'"""
+        nodeText='''
+                    <location name="NCY">
+                        <airport code="NCY" name="Annecy Meythet" city="Annecy" country="France" />
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        l=Location(node)
+        for attr,value in node.items():
+            if getattr(l,attr)!=node.get(attr):
+                raise Exception , "Mapping problem : value of attribute '%s' is different than 'Airport.%s'"%(attr,attr)
 
+    def testLocationConstructor2(self):
+        """ Test Location.__init__() with a complete node, with no namespace and no sub node 'gate'
+            Check if Place.__airport__ is well instanciated
+        """
+        nodeText='''
+                    <location name="ORYW">
+                        <airport code="ORY" name="Orly" city="Paris" country="France" />
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        airportNode=node.xpath("//airport")
+        l=Location(node)
+        
+        if l.__airport__ is not None:
+            if l.__airport__.__class__==Airport:
+                for attr, value in node.items():
+                    if not getattr(l,attr)==value:
+                        raise Exception,"__airport__ is not well instanciated  : (__airport__.%s != node.%s)"%(attr,attr)
+            else:
+                raise Exception,"__airport__ is not well instanciated (%s instead of %s)"(l.__airport__.__class__, Airport)
+        else:
+            raise Exception,"__airport__ is not well instanciated (None)"
+    
+    def testLocationConstructor3(self):
+        """ Test Location.__init__() with a complete node, with no namespace and a sub node 'gate'
+            Check if Place.__gate__ is well instanciated
+        """
+        nodeText='''
+                    <location name="ORYW">
+                        <airport code="ORY" name="Orly" city="Paris" country="France" />
+                        <gate name="W"/>
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        l=Location(node)
+        gate=node.xpath("//gate")[0]
+        if l.__gate__ is not None and l.__gate__ is not "":
+            if not l.__gate__==gate.get("name"):
+                raise Exception,"__gate__ is not well instanciated (%s)"%l.__gate__.__class__
+        else:
+            raise Exception,"__gate__ is not well instanciated (None)"
+    def testLocationConstructor4(self):
+        """ Test Location.__init__() with an uncomplete node (airport is missing), with no namespace and a sub node 'gate'
+            Should fail.
+        """
+        nodeText='''
+                    <location name="ORYW">
+                        <gate name="W"/>
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        self.assertRaises(Exception,Location, node)
 
+    
+    def testLocationConstructor5(self):
+        """ Test Location.__init__() with a complete node, with a namespace and no sub node 'gate'"""
+        """ Same test as testLocationConstructor1() but with a namespace"""
+        
+        nodeText='''
+                    <location name="NCY" xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+                        <airport code="NCY" name="Annecy Meythet" city="Annecy" country="France" />
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        l=Location(node)
+        for attr,value in node.items():  
+            if getattr(l,attr)!=node.get(attr):
+                raise Exception , "Mapping problem : value of attribute '%s' is different than 'Airport.%s'"%(attr,attr)
+            
+    def testLocationConstructor6(self):
+        """ Test Location.__init__() with a complete node, with a namespace and a sub node 'gate'
+            Check if Place.__airport__ is well instanciated
+            Same test as testLocationConstructor2() but with a namespace
+        """
+        nodeText='''
+                    <location name="ORYW" xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+                        <airport code="ORY" name="Orly" city="Paris" country="France"/>
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        airportNode=node.xpath("//f:airport", namespaces={"f":"http://snibbits.net/~gcarrier/ns/tracking"})
+        l=Location(node)
+        
+        if l.__airport__ is not None:
+            if l.__airport__.__class__==Airport:
+                for attr, value in node.items():
+                    if not getattr(l,attr)==value:
+                        raise Exception,"__airport__ is not well instanciated  : (__airport__.%s != node.%s)"%(attr,attr)
+            else:
+                raise Exception,"__airport__ is not well instanciated (%s instead of %s)"(l.__airport__.__class__, Airport)
+        else:
+            raise Exception,"__airport__ is not well instanciated (None)"
+    def testLocationConstructor7(self):
+        """ Test Location.__init__() with a complete node, with a namespace and a sub node 'gate'
+            Check if Place.__gate__ is well instanciated
+            Same test as testLocationConstructor3() but with a namespace
+        """
+        nodeText='''
+                    <location name="ORYW" xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+                        <airport code="ORY" name="Orly" city="Paris" country="France" />
+                        <gate name="W"/>
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        l=Location(node)
+        gate=node.xpath("//f:gate",namespaces={"f":"http://snibbits.net/~gcarrier/ns/tracking"})[0]
+        if l.__gate__ is not None and l.__gate__ is not "":
+            if not l.__gate__==gate.get("name"):
+                raise Exception,"__gate__ is not well instanciated (%s)"%l.__gate__.__class__
+        else:
+            raise Exception,"__gate__ is not well instanciated (None)"
+    def testLocationConstructor8(self):
+        """ Test Location.__init__() with an uncomplete node (airport is missing), with a namespace and a sub node 'gate'
+            Same test as testLocationConstructor3() but with a namespace
+            Should fail.
+        """
+        nodeText='''
+                    <location name="ORYW" xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+                        <gate name="W"/>
+                    </location>
+                '''
+        node=etree.fromstring(nodeText)
+        self.assertRaises(Exception,Location, node)
+    #TODO : unittests on Location object
 def test_suite():
     tests=[unittest.makeSuite(FlightTest)]
     return unittest.TestSuite(tests)
