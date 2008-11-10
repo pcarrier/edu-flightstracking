@@ -1,0 +1,20 @@
+message Airport {
+	required string code = 1;
+	optional string name = 2;
+	optional string city = 3;
+	optional string country = 4;
+}
+
+message GeoRequest {
+	repeated Airport airport = 1;
+}
+
+message Position {
+	required bytes x = 1;
+	required bytes y = 2;
+	optional bytes z = 3;
+}
+
+message GeoAnswer {
+	repeated Position position = 1;
+}
