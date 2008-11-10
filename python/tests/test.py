@@ -51,7 +51,24 @@ class FlightTest(unittest.TestCase):
 
         node=etree.fromstring(nodeText)
         self.assertRaises(Exception, Flight,node)
-    
+        
+    def testFlightConstructor4(self):
+        """ Test Flight.__init__() with a well formed full node with a Namespace. Check if __departure__ and __arrival__ are well instancied"""
+        rootText='''<?xml version="1.0" encoding="UTF-8"?>
+                    <flightsTracking  xmlns="http://snibbits.net/~gcarrier/ns/tracking">
+                        <flight name="AF5921" status="canceled">
+                                <departure datetime="2008-11-03T07:55:00Z" location="ORYW"/>
+                                <arrival datetime="2008-11-03T09:15:00Z" location="NCY"/>
+                        </flight>
+                    </flightsTracking>
+                '''
+
+        root=etree.fromstring(rootText)        
+        f=Flight(root.getchildren()[0])
+        if not f.__departure__.__class__==Departure:
+            raise Exception,"Departure is not well instanciated"
+        if not f.__arrival__.__class__==Arrival:
+            raise Exception,"Arrival is not well instanciated"
     def testDepartureConstructor1(self):
         """ Test Departure.__init__() with a well formed node with no namespace"""
         nodeText='''

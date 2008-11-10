@@ -111,6 +111,6 @@ class Flight(Mappable):
                 arNode=node.xpath(arXp)
             
             #Creating the departure and arrival objects
-            self.departure=Departure(depNode[0])
-            self.arrival=Arrival(arNode[0])
+            self.__departure__=Departure(depNode[0])
+            self.__arrival__=Arrival(arNode[0])
             
