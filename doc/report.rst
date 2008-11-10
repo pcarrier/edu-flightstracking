@@ -42,11 +42,6 @@ Performance
 
 Nous avons, à titre récréatif, intégré le support de ``memcached`` dans le service de géolocalisation.
 
-Construction
-------------
-
-La concision et l'extensibilité de ``SCons``, lui-même écrit en Python, nous ont immédiatement poussé à adopter ce système de construction.
-
 Gestion des sources
 -------------------
 
