@@ -5,5 +5,8 @@
     <xsl:output method="xml"/>
     
     <xsl:template match="/" >
+    	<xsl:element name="kml"namespace="http://earth.google.com/kml/2.2">
+    	
+    	</xsl:element>
     </xsl:template>
 </xsl:stylesheet>

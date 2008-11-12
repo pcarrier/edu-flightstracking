@@ -3,29 +3,61 @@ from lxml import etree
 import re
 
 nspattern="(\{.*\}){0,1}"
+"""
+Remarque :
+    
+"""
 
+    
 class Mappable(object):
+    __attList__=[]
+    __subnodeattlist__=[]
+    __nodename__=""
+    __ns__=None
     def __init__(self, node):
         #Getting all declared attributes
-        attList = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and not att.startswith("__")]
+        self.__attList__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and not att.startswith("__")]
         #Cheking ifattributes are present in XML node
-        for att in attList:
+        for att in self.__attList__:
             if not att in node.keys():
                 raise Exception,"%s Attribute ERROR : a %s object may be construct with node who have a '%s' attribute."%(self.__class__,self.__class__,att)
         [setattr(self, attr,value) for attr,value in node.items()]
+    def toXML(self):
+        #Recupere tous les attributs dont le nom commence par 3 underscores ('___')
+        self.__subnodeattlist__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and att.startswith("___")]
+        ret="<%s "%self.__nodename__
         
+        if self.__ns__ is not None and self.__ns__ != "":
+            ret+="xmlns=\"%s\" "%self.__ns__
+        for attr in self.__attList__:
+            if getattr(self,attr)!= None:
+                ret+="%s=\"%s\" "%(attr, getattr(self,attr))
+        ret+=">"
         
+        for subnode in self.__subnodeattlist__:
+            if getattr(self,subnode)!=None:
+                ret +=str(getattr(self,subnode).toXML()) 
+        ret+="</%s>"%self.__nodename__
+        return ret
+    #This method allow us to call, for example, Object.___airport___ in this way : Object["airport"] 
+    def __getitem__(self, attr):
+        try:
+            return getattr(self, attr)
+        except:
+            return getattr(self, "___%s___"%attr)
+            
+    
 class PlaceTime(Mappable):
     datetime=""
     location=""
     def __init__(self, node):
-        super(PlaceTime,self).__init__(node)        
-        # List comprehension + instrospection = :)
+        super(PlaceTime,self).__init__(node)
         
     
 class Departure (PlaceTime):
     def __init__(self, node):
-        pattern=nspattern+"departure"
+        self.__nodename__="departure"
+        pattern=nspattern+self.__nodename__
         if not re.match(pattern, node.tag):
             raise Exception,"Departure Node ERROR : %s not allowed here"%node.tag          
         else:
@@ -34,7 +66,8 @@ class Departure (PlaceTime):
 
 class Arrival (PlaceTime):
     def __init__(self, node):
-        pattern=nspattern+"arrival"
+        self.__nodename__="arrival"
+        pattern=nspattern+self.__nodename__
         if not re.match(pattern, node.tag):
             raise Exception,"Arrival Node ERROR : %s not allowed here"%node.tag          
         else:
@@ -47,7 +80,9 @@ class Airport(Mappable):
     country=""
     
     def __init__(self, node):
-        pattern=nspattern+"airport"
+        self.__nodename__="airport"
+        pattern=nspattern+self.__nodename__
+        
         if not re.match(pattern, node.tag):
             raise Exception,"Node ERROR"
         else:
@@ -56,16 +91,25 @@ class Airport(Mappable):
     def __unicode__(self):
         return "%s, %s, %s" % (self.name,self.city, self.country)
         
-    
+class Gate(Mappable):
+    name=None
+    def __init__(self, node):
+        self.__nodename__="gate"
+        super(Gate,self).__init__(node)
+        pattern=nspattern+self.__nodename__
+        if not re.match(pattern, node.tag):
+            raise Exception,"Location Node ERROR : %s not allowed here"%node.tag
+        else:
+            self.name=node.get("name")
 class Location(Mappable):
     name=""
-    __airport__=None
-    __gate__=""
-    __ns__=None
-    def __init__(self):
-        pass
+    ___airport___=None
+    ___gate___=None
+    ___lat___=None
+    ___long___=None
     def __init__(self, node):
-        pattern=nspattern+"location"
+        self.__nodename__="location"
+        pattern=nspattern+self.__nodename__
         if not re.match(pattern, node.tag):
             raise Exception,"Location Node ERROR : %s not allowed here"%node.tag
         else:
@@ -91,24 +135,28 @@ class Location(Mappable):
                 gateNode=node.xpath(gateXp)
                 airNode=node.xpath(airXp)
             if len(gateNode)==1:
-                self.__gate__=gateNode[0].get("name")
+                self.___gate___= Gate(gateNode[0])
             if not len(airNode)==1:
                 raise Exception, "A location may be instanciated with a node containig an <airport/> child."
             else:
-                self.__airport__=Airport(airNode[0])
+                self.___airport___=Airport(airNode[0])
 
 class Flight(Mappable):
     name=""
     status=""
-    __departure__=None
-    __arrival__=None
-    __ns__=None
+    
+    #Attributes beginning by 3 underscores are builds from subnodes
+    ___departure___=None
+    ___arrival___=None
+    
+    
     def __init__(self, node):
+        self.__nodename__="flight"
         """If it's not the good node name"""
         #TODO : a better way to find the tag without the namespace
     
         # tag with namespace pattern like {namespace}tag
-        pattern=nspattern+"flight"
+        pattern=nspattern+self.__nodename__
         
         #the if statement in comment Works just without namespace, so we try to get it by a regexp
         #if not node.tag=="flight":   
@@ -139,6 +187,5 @@ class Flight(Mappable):
                 arNode=node.xpath(arXp)
             
             #Creating the departure and arrival objects
-            self.__departure__=Departure(depNode[0])
-            self.__arrival__=Arrival(arNode[0])
-            
+            self.___departure___=Departure(depNode[0])
+            self.___arrival___=Arrival(arNode[0])
