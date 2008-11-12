@@ -330,7 +330,6 @@ class FlightTest(unittest.TestCase):
 
         node=etree.fromstring(nodeText)
         g= Gate(node)
-        print g["name"]
         node2=etree.fromstring(g.toXML())
         if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
             raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
