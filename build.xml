@@ -1,0 +1,20 @@
+<project name="jing" default="validate" basedir=".">
+    <property file="jing.properties" />
+	<property name="eg.path" value="./lib" />
+	  <path id="eg.classpath">
+	    <pathelement path="${eg.path}/jing.jar;" />
+	  </path>
+	 <target name="declare-task">
+	  	<taskdef name="jing" classname="com.thaiopensource.relaxng.util.JingTask"
+	  			classpathref="eg.classpath"/>
+	  </target>
+
+	  <target name="validate" depends="declare-task">
+	    <jing rngfile="rng/${schema}">
+	      <fileset dir="xml" includes="${instance}"/>
+	    </jing>
+	  </target>
+
+	
+
+</project>
