@@ -5,7 +5,11 @@ import re
 nspattern="(\{.*\}){0,1}"
 """
 Remarque :
-    
+Les attributs de chaque classe dont le nom commence par 3 undersore representent des sous noeud dans l'arborescence xml et
+doivent avoir une methode toXML() (heritee de Mappable ou surchargee).
+
+Les attributs de chaque classe dont le nom commence par 2 undersore ne sont que des attributs prives, en accord avec la notation
+python.
 """
 
     
@@ -14,17 +18,19 @@ class Mappable(object):
     __subnodeattlist__=[]
     __nodename__=""
     __ns__=None
+        
     def __init__(self, node):
-        #Getting all declared attributes
-        self.__attList__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and not att.startswith("__")]
-        #Cheking ifattributes are present in XML node
-        for att in self.__attList__:
-            if not att in node.keys():
-                raise Exception,"%s Attribute ERROR : a %s object may be construct with node who have a '%s' attribute."%(self.__class__,self.__class__,att)
-        [setattr(self, attr,value) for attr,value in node.items()]
+        if node is not None:
+            #Getting all declared attributes
+            self.__attList__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and not att.startswith("__")]
+            #Cheking ifattributes are present in XML node
+            for att in self.__attList__:
+                if not att in node.keys():
+                    raise Exception,"%s Attribute ERROR : a %s object may be construct with node who have a '%s' attribute."%(self.__class__,self.__class__,att)
+            [setattr(self, attr,value) for attr,value in node.items()]
     def toXML(self):
         #Recupere tous les attributs dont le nom commence par 3 underscores ('___')
-        self.__subnodeattlist__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and att.startswith("___")]
+        self.__subnodeattlist__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and att.startswith("___")] 
         ret="<%s "%self.__nodename__
         
         if self.__ns__ is not None and self.__ns__ != "":
@@ -35,6 +41,7 @@ class Mappable(object):
         ret+=">"
         
         for subnode in self.__subnodeattlist__:
+            
             if getattr(self,subnode)!=None:
                 ret +=str(getattr(self,subnode).toXML()) 
         ret+="</%s>"%self.__nodename__
@@ -101,12 +108,24 @@ class Gate(Mappable):
             raise Exception,"Location Node ERROR : %s not allowed here"%node.tag
         else:
             self.name=node.get("name")
+class Coordinate(Mappable):
+    lat=None
+    long=None
+    
+    def __init__(self, lat, long):
+        super(Coordinate,self).__init__(None)
+        self.__nodename__="coordinates"
+        self.lat=lat
+        self.long=long
+        
+    def toXML(self):
+        return "<%s>%s, %s</%s>"%(self.__nodename__,self.long, self.lat,self.__nodename__)
 class Location(Mappable):
     name=""
     ___airport___=None
     ___gate___=None
-    ___lat___=None
-    ___long___=None
+    ___cordinates___=None
+    
     def __init__(self, node):
         self.__nodename__="location"
         pattern=nspattern+self.__nodename__
@@ -140,7 +159,8 @@ class Location(Mappable):
                 raise Exception, "A location may be instanciated with a node containig an <airport/> child."
             else:
                 self.___airport___=Airport(airNode[0])
-
+    def setCoordinates(self, lat, long):
+        self.___cordinates___=Coordinate(lat, long)
 class Flight(Mappable):
     name=""
     status=""
