@@ -334,32 +334,67 @@ class FlightTest(unittest.TestCase):
         if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
             raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
     
-    """ Due to python instropection attributes and subnode may not appear in the same order. Both tests cases are always raising exceptions 
+    
     def testLocationToXML(self):
-        "" Test Flight.__init__() with a well formed full  node with no namespace""
-        nodeText='''<location name="ORYW" xmlns="http://snibbits.net/~gcarrier/ns/tracking"><airport code="ORY" name="Orly" city="Paris" country="France"/><gate name="W"/></location>'''
+        lat=13.5 
+        long=5
+        """ Test Location.toXML() with a well formed full  node with no namespace"""
+        nodeText='''<location name="ORYW"><airport code="ORY" name="Orly" city="Paris" country="France"/><gate name="W"/></location>'''
 
         node=etree.fromstring(nodeText)
         g= Location(node)
+        
+        g.setCoordinates(long, lat)
         node2=etree.fromstring(g.toXML())
-        #print "'"+etree.tostring(node, pretty_print=True)+"'" 
-        #print "'"+etree.tostring(node2,pretty_print=True)+"'"
-        if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
-               raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
+        
+        for attr, value in node.items():
+            if not node2.get(attr)==value:
+                raise Exception, "Erreur parsage XML : la forme XML obtenue par  Location.toXML() est differente de celle produite par etree a partir du meme noeud"
+
+        
+        #Compare les deux node airports
+        airportNode1=node.xpath("//airport")[0]
+        airportNode2=node2.xpath("//airport")[0]
+        
+        for attr, value in airportNode1.items():
+            if airportNode2.get(attr)!=value:
+                raise Exception, "Instances are differents"
+        
+        # TODO : check if the new node <coordinates> contains the good value.        
+        coordinates=airportNode2.xpath("//coordinates")[0]
+        if coordinates.text!="%s, %s"%(lat, long):
+            raise Exception, "Error : coordinate node with '%s' value is different thant '%s, %s'"%(coordinates.text, lat, long)
+        
+        
+       
     def testFlightToXML(self):
-        "" Test Flight.toXML() with a well formed full  node with no namespace. I've suppressed the \r and \t because etree.tostring don't react in the same way.""
+        """ Test Flight.toXML() with a well formed full  node with no namespace."""
         nodeText='''<flight name="AF5921" status="canceled"><departure datetime="2008-11-03T07:55:00Z" location="ORYW"/><arrival datetime="2008-11-03T09:15:00Z" location="NCY"/></flight>
                 '''
-        node=etree.fromstring(nodeText)
-        f= Flight(node)
+        flightNode=etree.fromstring(nodeText)
+        f= Flight(flightNode)
         
-        node2=etree.fromstring(f.toXML())
-        #print ""
-        #print "'"+ etree.tostring(node, pretty_print=True)+"'"
-        #print "'"+etree.tostring(node2, pretty_print=True)+"'"
-        if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
-            raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
-    """
+        flightNode2=etree.fromstring(f.toXML())
+        
+        for attr, value in flightNode.items():
+            if flightNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight are differents but builds with the same xml string"
+        
+        
+        depNode=flightNode.xpath("//departure")[0]
+        depNode2=flightNode2.xpath("//departure")[0]
+        
+        for attr, value in depNode.items():
+            if depNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight.departure are differents but builds with the same xml string"
+        
+        arrNode=flightNode.xpath("//arrival")[0]
+        arrNode2=flightNode2.xpath("//arrival")[0]
+        
+        for attr, value in arrNode.items():
+            if arrNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight.departure are differents but builds with the same xml string"
+
 def test_suite():
     tests=[unittest.makeSuite(FlightTest)]
     return unittest.TestSuite(tests)
