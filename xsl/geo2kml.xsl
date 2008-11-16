@@ -7,7 +7,6 @@
     <xsl:output method="xml" indent="yes"/>
 
 	<xsl:template match="/">
-		<xsl:message>Template flighttraking</xsl:message>
     	<xsl:element name="kml">
     		<xsl:element name="Document">
     			<xsl:element name="name">
@@ -24,10 +23,48 @@
     
     
 	<xsl:template match="f:locations">
+	
 	<xsl:for-each select="//f:location">
-    		<xsl:element name="Placemark">
-    				<xsl:element name="name"><xsl:value-of select="@name"/></xsl:element>
-    				<xsl:element name="description"><![CDATA[ DES TRUCS]]> </xsl:element>
+			<xsl:variable name="locationName"><xsl:value-of select="@name"/></xsl:variable>
+    		<xsl:element name="Placemark">		
+   					<xsl:element name="name"><xsl:value-of select="$locationName"/></xsl:element>
+    				
+    				<xsl:element name="description">
+    				<xsl:if test="count(//f:flights/f:flight/f:departure[@location=$locationName])>0">
+	    				<xsl:for-each select="//f:flights/f:flight/f:departure[@location=$locationName]">
+							<xsl:element name="div">
+							<xsl:value-of select="../@name"/>
+							</xsl:element>
+							
+							<xsl:element name="div">
+							Status :<xsl:value-of select="../@status"/>
+							
+							</xsl:element>
+							<xsl:element name="div">
+								<xsl:value-of select="@datetime"/>
+								<xsl:text> </xsl:text>
+								<xsl:value-of select="@location"/>
+							</xsl:element>
+							
+							<xsl:element name="div">
+								<xsl:value-of select="../f:arrival/@datetime"/>
+								<xsl:text> </xsl:text>
+								<xsl:value-of select="../f:arrival/@location"/>
+							</xsl:element> 
+	    				</xsl:for-each>
+	    			</xsl:if>
+	    			
+	    			<xsl:if test="count(//f:flights/f:flight/f:arrival[@location=$locationName])>0">
+	    				<xsl:text>
+	    				Arrivées</xsl:text>
+	    				<xsl:for-each select="//f:flights/f:flight/f:arrival[@location=$locationName]">
+							Vol :<xsl:value-of select="../@name"/>
+							Status :<xsl:value-of select="../@status"/>
+							Heure de départ :<xsl:value-of select="@datetime"/>
+	    				</xsl:for-each>
+	    			</xsl:if>
+    				</xsl:element>
+    				
     				<xsl:element name="Point">
     				<xsl:element name="coordinates">
     					<xsl:value-of select="//f:coordinates"/>
