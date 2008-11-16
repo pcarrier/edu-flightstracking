@@ -4,7 +4,7 @@ This use the xsl file geo2kml.xsl and transform the input file.
 
 import lxml
 from lxml import etree
-import os
+import os,sys
 
 def Transform(file_in, xsl_file, file_out):
     if os.path.exists(file_in):
@@ -20,18 +20,16 @@ def Transform(file_in, xsl_file, file_out):
             f.write(str(result))
             f.close()
         else:
-            print "%s doesn't exixts"%xsl_file
+            raise Exception, "%s doesn't exixts"%xsl_file
     else:
-        print "%s doesn't exixts"%file_in
-
-    
-    
+        raise Exception, "%s doesn't exixts"%file_in
 
 
 if __name__=="__main__":
-    file_in="../xml/examples/geoflights1.xml"
-    xsl_file="../xsl/geo2kml.xsl"
-    file_out="../kml/out_py.kml"
+    #TODO : Parsing argv with getopt
+    file_in=sys.argv[1]
+    xsl_file=sys.argv[2]
+    file_out=sys.argv[3]
     
     print "Transforming %s with xsl stylesheet %s :)"%(file_in, xsl_file)
     Transform(file_in, xsl_file, file_out)
