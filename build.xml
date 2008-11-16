@@ -16,7 +16,11 @@
 	    </jing>
 	  </target>
 	
-	
+		<target name="jing.validate.TEST" depends="declare-task">
+		    <jing rngfile="rng/${flightSchema}">
+		      <fileset dir="xml" includes="test.xml"/>
+		    </jing>
+		</target>
 	<taskdef resource="pyAntTasks.properties"/>
 		
 		<property name="src.dir" value="python"/>
