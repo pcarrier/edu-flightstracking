@@ -27,50 +27,65 @@
 	<xsl:for-each select="//f:location">
 			<xsl:variable name="locationName"><xsl:value-of select="@name"/></xsl:variable>
     		<xsl:element name="Placemark">		
-   					<xsl:element name="name"><xsl:value-of select="$locationName"/></xsl:element>
+   					<xsl:element name="name"><xsl:value-of select="./f:airport/@name"/></xsl:element>
     				
     				<xsl:element name="description">
-    				<xsl:if test="count(//f:flights/f:flight/f:departure[@location=$locationName])>0">
-	    				<xsl:for-each select="//f:flights/f:flight/f:departure[@location=$locationName]">
+    				
+    				<xsl:choose>
+	    			<xsl:when test="count(//f:flights/f:flight/f:arrival[@location=$locationName])>0">
+	    			<xsl:for-each select="//f:flights/f:flight/f:arrival[@location=$locationName]">
+	    				   <xsl:variable name="departureLocation" select="../f:departure/@location"/>
 							<xsl:element name="div">
-							<xsl:value-of select="../@name"/>
-							</xsl:element>
+							<xsl:value-of select="../@name"/> :
 							
-							<xsl:element name="div">
-							Status :<xsl:value-of select="../@status"/>
+							<xsl:value-of select="../@status"/>
 							
 							</xsl:element>
-							<xsl:element name="div">
-								<xsl:value-of select="@datetime"/>
-								<xsl:text> </xsl:text>
-								<xsl:value-of select="@location"/>
-							</xsl:element>
-							
 							<xsl:element name="div">
 								<xsl:value-of select="../f:arrival/@datetime"/>
 								<xsl:text> </xsl:text>
-								<xsl:value-of select="../f:arrival/@location"/>
-							</xsl:element> 
+								<xsl:value-of select="//f:location[@name=$departureLocation]/f:airport/@city"/>,
+								<xsl:value-of select="//f:location[@name=$departureLocation]/f:airport/@name"/>
+								(<xsl:value-of select="//f:location[@name=$departureLocation]/f:airport/@code"/>) -
+								<xsl:value-of select="//f:location[@name=$departureLocation]/f:airport/@country"/>
+								
+								<xsl:if test="//f:location[@name=$departureLocation]/f:gate/@name != ''">
+									<xsl:text> Terminal </xsl:text>
+									<xsl:value-of select="//f:location[@name=$departureLocation]/f:gate/@name"/>
+								</xsl:if>
+							</xsl:element>
+							
+							<xsl:element name="div">
+								<xsl:value-of select="@datetime"/>
+								<xsl:text> </xsl:text>
+								<xsl:value-of select="//f:location[@name=$locationName]/f:airport/@city"/>,
+								
+								<xsl:value-of select="//f:location[@name=$locationName]/f:airport/@name"/>
+								(<xsl:value-of select="//f:location[@name=$locationName]/f:airport/@code"/>) -
+								
+								<xsl:value-of select="//f:location[@name=$locationName]/f:airport/@country"/>
+								
+								<xsl:if test="//f:location[@name=$locationName]/f:gate/@name != ''">
+									<xsl:text> Terminal </xsl:text>
+									<xsl:value-of select="//f:location[@name=$locationName]/f:gate/@name"/>
+								</xsl:if>
+							</xsl:element>
+							
 	    				</xsl:for-each>
-	    			</xsl:if>
+	    			</xsl:when>
+	    			<xsl:otherwise>
+	    			There are not flight on arrival in this airport.
+	    			</xsl:otherwise>
+	    			</xsl:choose>
 	    			
-	    			<xsl:if test="count(//f:flights/f:flight/f:arrival[@location=$locationName])>0">
-	    				<xsl:text>
-	    				Arrivées</xsl:text>
-	    				<xsl:for-each select="//f:flights/f:flight/f:arrival[@location=$locationName]">
-							Vol :<xsl:value-of select="../@name"/>
-							Status :<xsl:value-of select="../@status"/>
-							Heure de départ :<xsl:value-of select="@datetime"/>
-	    				</xsl:for-each>
-	    			</xsl:if>
     				</xsl:element>
-    				
-    				<xsl:element name="Point">
-    				<xsl:element name="coordinates">
-    					<xsl:value-of select="//f:coordinates"/>
-    				</xsl:element>
-    			</xsl:element>
+    		<xsl:element name="Point">
+	    		<xsl:element name="coordinates">
+	    			<xsl:value-of select="./f:coordinates"/>
+	    		</xsl:element>
     		</xsl:element>
+    		</xsl:element>
+
     	</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
