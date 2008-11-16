@@ -19,7 +19,7 @@ def geoCode(doc):
     return doc
 def getLatLong(place):
     #TODO CALL Google webservice
-    print place
+    #print place
     return 5.7250776, 45.1760751
 def save(location, file_out):
     pass
