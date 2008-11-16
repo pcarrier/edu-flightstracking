@@ -33,17 +33,17 @@ class Mappable(object):
         self.__subnodeattlist__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and att.startswith("___")] 
         ret="<%s "%self.__nodename__
         
-        if self.__ns__ is not None and self.__ns__ != "":
-            ret+="xmlns=\"%s\" "%self.__ns__
+        #if self.__ns__ is not None and self.__ns__ != "":
+        #    ret+="xmlns=\"%s\" "%self.__ns__
         for attr in self.__attList__:
             if getattr(self,attr)!= None:
                 ret+="%s=\"%s\" "%(attr, getattr(self,attr))
         ret+=">"
         
         for subnode in self.__subnodeattlist__:
-            
             if getattr(self,subnode)!=None:
-                ret +=str(getattr(self,subnode).toXML()) 
+                ret +=str(getattr(self,subnode).toXML())
+                
         ret+="</%s>"%self.__nodename__
         return ret
     #This method allow us to call, for example, Object.___airport___ in this way : Object["airport"] 
@@ -143,24 +143,27 @@ class Location(Mappable):
                     
             #We have a namespace, modifying XPATH query in consequence
             if self.__ns__ is  not None and self.__ns__ is not '':
-                gateXp="//f:gate"
-                airXp="//f:airport"
+                gateXp="./f:gate"
+                airXp="./f:airport"
                 gateNode=node.xpath(gateXp,namespaces={"f":self.__ns__})
                 airNode=node.xpath(airXp,namespaces={"f":self.__ns__})
             #we don't have a namsepace, simple XPATH query
             else:
-                gateXp="//gate"
-                airXp="//airport"
+                gateXp="./gate"
+                airXp="./airport"
                 gateNode=node.xpath(gateXp)
                 airNode=node.xpath(airXp)
             if len(gateNode)==1:
                 self.___gate___= Gate(gateNode[0])
             if not len(airNode)==1:
-                raise Exception, "A location may be instanciated with a node containig an <airport/> child."
+                raise Exception, "A location may be instanciated with a node containig an <airport/> child, %s present here"%len(airNode)
             else:
                 self.___airport___=Airport(airNode[0])
     def setCoordinates(self, lat, long):
         self.___cordinates___=Coordinate(lat, long)
+    def __str__(self):
+        a=self.___airport___
+        return "%s, %s, %s"%(a.name, a.city, a.country)
 class Flight(Mappable):
     name=""
     status=""
@@ -195,17 +198,86 @@ class Flight(Mappable):
             
             #We have a namespace, modifying XPATH query in consequence
             if self.__ns__ is  not None and self.__ns__ is not '':
-                depXp="//f:departure"
-                arXp="//f:arrival"
+                depXp="./f:departure"
+                arXp="./f:arrival"
                 depNode=node.xpath(depXp,namespaces={"f":self.__ns__})
                 arNode=node.xpath(arXp,namespaces={"f":self.__ns__})
             #we don't have a namsepace, simple XPATH query
             else:
-                depXp="//departure"
-                arXp="//arrival"
+                depXp="./departure"
+                arXp="./arrival"
                 depNode=node.xpath(depXp)
                 arNode=node.xpath(arXp)
             
             #Creating the departure and arrival objects
             self.___departure___=Departure(depNode[0])
             self.___arrival___=Arrival(arNode[0])
+
+class FlightsTracking(Mappable):
+    ___flights___=[]
+    ___locations___=[]
+    __nodename__="flightsTracking"
+    def __init__(self, node):
+        """If it's not the good node name"""
+        #TODO : a better way to find the tag without the namespace
+    
+        # tag with namespace pattern like {namespace}tag
+        pattern=nspattern+self.__nodename__
+        if not re.match(pattern, node.tag):
+            raise Exception,"flightsTracking Node ERROR : %s not allowed here"%node.tag          
+        else:
+            if not re.match(pattern, node.tag):
+                raise Exception,"Flight Node ERROR : %s not allowed here"%node.tag          
+            else:
+                super(FlightsTracking,self).__init__(node)
+                # Trying to find the namespace (uggly way)
+                c=re.compile(nspattern)
+                m=c.match(node.tag)
+                if m:
+                    if m.group()!='' and m.group()!=None:
+                        self.__ns__=m.group()
+                        self.__ns__=self.__ns__.strip('{}')
+            
+            
+            if self.__ns__ is  not None and self.__ns__ is not '':
+                flightsXp="//f:flights/f:flight"
+                locationsXp="//f:locations/f:location"
+                
+                flightsNode=node.xpath(flightsXp,namespaces={"f":self.__ns__})
+                locationsNode=node.xpath(locationsXp,namespaces={"f":self.__ns__})
+            else:
+                flightsXp="//flights/flight"
+                locationsXp="//locations/location"
+                
+                flightsNode=node.xpath(flightsXp)
+                locationsNode=node.xpath(locationsXp)
+            for fnode in flightsNode:
+                f=Flight(fnode)
+                self.___flights___.insert(-1,f)            
+            for lnode in locationsNode:
+                l=Location(lnode)
+                self.___locations___.insert(-1,l)
+    def toXML(self):
+        # TODO
+        self.__subnodeattlist__ = [att for att in dir(self.__class__) if not callable(getattr(self.__class__, att)) and att.startswith("___")]
+        
+        ret="<%s "%self.__nodename__
+        
+        if self.__ns__ is not None and self.__ns__ != "":
+            ret+="xmlns=\"%s\" "%self.__ns__
+        for attr in self.__attList__:
+            if getattr(self,attr)!= None:
+                ret+="%s=\"%s\" "%(attr, getattr(self,attr))
+        ret+=">"
+        
+        ret+="<flights>"
+        for x in self.___flights___:
+            ret +=str(x.toXML())
+        ret+="</flights>"
+        ret+="<locations>"
+        for y in self.___locations___:
+            ret +=str(y.toXML())
+        ret+="</locations>"    
+            
+        ret+="</%s>"%self.__nodename__
+        return ret
