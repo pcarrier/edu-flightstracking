@@ -1,5 +1,6 @@
 <project name="jing" default="validate" basedir=".">
-    <property file="jing.properties" />
+	
+    <property file="build.properties" />
 	<property name="eg.path" value="./lib" />
 	  <path id="eg.classpath">
 	    <pathelement path="${eg.path}/jing.jar;" />
@@ -10,11 +11,27 @@
 	  </target>
 
 	  <target name="validate" depends="declare-task">
-	    <jing rngfile="rng/${schema}">
-	      <fileset dir="xml" includes="${instance}"/>
+	    <jing rngfile="rng/${flightSchema}">
+	      <fileset dir="xml" includes="${flightInstance}"/>
 	    </jing>
 	  </target>
-
 	
-
+	
+	<taskdef resource="pyAntTasks.properties"/>
+		
+		<property name="src.dir" value="python"/>
+		<target name="compile">
+			<py-compile dir="python/tests" pythonpath="python/tests" optimize="0"/>
+		</target>
+		
+		<target name="run.test" depends="compile">
+			<py-run script="python/tests/test.py" pythonpath="./python/">
+			</py-run>
+		</target>
+	
+	
+	
+	<target name="geo2kml" depends="declare-task">
+		<xslt in="xml/${xslIn}" style="xsl/${xslStyle}" out="kml/${xslOut}" />
+	</target>
 </project>
