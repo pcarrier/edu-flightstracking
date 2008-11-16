@@ -1,5 +1,5 @@
 """
-This use the relax-ng file given to validate the xml file given.
+This script use the relax-ng file given to validate the xml file given.
 """
 
 import lxml

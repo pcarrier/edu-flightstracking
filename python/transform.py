@@ -1,5 +1,5 @@
 """
-This use the xsl file geo2kml.xsl and transform the input file.
+This script use the xsl file geo2kml.xsl and transform the input file.
 """
 
 import lxml
