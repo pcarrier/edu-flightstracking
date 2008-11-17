@@ -30,7 +30,7 @@
    					<xsl:element name="name"><xsl:value-of select="./f:airport/@name"/></xsl:element>
     				
     				<xsl:element name="description">
-    				
+    				  
     				<xsl:choose>
 	    			<xsl:when test="count(//f:flights/f:flight/f:arrival[@location=$locationName])>0">
 	    			<xsl:for-each select="//f:flights/f:flight/f:arrival[@location=$locationName]">
@@ -76,8 +76,7 @@
 	    			<xsl:otherwise>
 	    			There are not flight on arrival in this airport.
 	    			</xsl:otherwise>
-	    			</xsl:choose>
-	    			
+	    			</xsl:choose>	    			
     				</xsl:element>
     		<xsl:element name="Point">
 	    		<xsl:element name="coordinates">
