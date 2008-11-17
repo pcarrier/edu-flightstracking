@@ -2,8 +2,8 @@
 <flightsTracking xmlns="http://snibbits.net/~gcarrier/ns/tracking">
 	<flights>
 		<flight name="AF5921" status="canceled">
-			<departure datetime="2008-11-03T07:55:00Z" location="ORYW"/>
-			<arrival datetime="2008-11-03T09:15:00Z" location="NCY"/>
+			<departure datetime="2008-11-03T07:55:00Z" location="NCY"/>
+			<arrival datetime="2008-11-03T09:15:00Z" location="ORYW"/>
 		</flight>
 		<flight name="AF5927" status="pending">
 			<departure datetime="2008-11-03T15:25:00Z" location="ORYW"/>
