@@ -40,6 +40,13 @@
 				</py-run>
 		</target>
 	
+		<target name="python.geocode" depends="compile">
+			<py-run script="python/tests/demo_geocoder.py" pythonpath="./python">
+			<arg value="${pyGeocodIn}"/>
+			<arg value="${pyGeocodOut}"/>
+			</py-run>
+		</target>
+	
 		<target name="jing.transform" depends="declare-task">
 			<xslt in="${xslIn}" style="${xslStyle}" out="${xslOut}" />
 		</target>
