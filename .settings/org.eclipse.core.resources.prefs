@@ -1,3 +1,5 @@
-#Sun Nov 09 16:22:26 CET 2008
+#Mon Nov 17 15:42:54 CET 2008
 eclipse.preferences.version=1
+encoding//python/service/google.py=UTF-8
+encoding//python/tests/demo_geocoder.py=UTF-8
 encoding/geocoder.py=UTF-8
