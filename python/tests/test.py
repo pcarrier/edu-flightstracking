@@ -338,13 +338,14 @@ class FlightTest(unittest.TestCase):
     def testLocationToXML(self):
         lat=13.5 
         long=5
+        z=0
         """ Test Location.toXML() with a well formed full  node with no namespace"""
         nodeText='''<location name="ORYW"><airport code="ORY" name="Orly" city="Paris" country="France"/><gate name="W"/></location>'''
 
         node=etree.fromstring(nodeText)
         g= Location(node)
         
-        g.setCoordinates(long, lat)
+        g.setCoordinates(lat,long,z)
         node2=etree.fromstring(g.toXML())
         
         for attr, value in node.items():
@@ -362,8 +363,8 @@ class FlightTest(unittest.TestCase):
         
         # TODO : check if the new node <coordinates> contains the good value.        
         coordinates=airportNode2.xpath("//coordinates")[0]
-        if coordinates.text!="%s, %s"%(lat, long):
-            raise Exception, "Error : coordinate node with '%s' value is different thant '%s, %s'"%(coordinates.text, lat, long)
+        if coordinates.text!="%s,%s,%s"%(lat, long,z):
+            raise Exception, "Error : coordinate node with '%s' value is different thant '%s,%s,%s'"%(coordinates.text, lat, long,z)
         
         
        
