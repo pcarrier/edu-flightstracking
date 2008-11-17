@@ -111,15 +111,16 @@ class Gate(Mappable):
 class Coordinate(Mappable):
     lat=None
     long=None
-    
-    def __init__(self, lat, long):
+    z=None
+    def __init__(self, lat, long,z):
         super(Coordinate,self).__init__(None)
         self.__nodename__="coordinates"
         self.lat=lat
         self.long=long
+        self.z=z
         
     def toXML(self):
-        return "<%s>%s, %s</%s>"%(self.__nodename__,self.long, self.lat,self.__nodename__)
+        return "<%s>%s,%s,%s</%s>"%(self.__nodename__,self.lat,self.long,self.z,self.__nodename__)
 class Location(Mappable):
     name=""
     ___airport___=None
@@ -159,8 +160,8 @@ class Location(Mappable):
                 raise Exception, "A location may be instanciated with a node containig an <airport/> child, %s present here"%len(airNode)
             else:
                 self.___airport___=Airport(airNode[0])
-    def setCoordinates(self, lat, long):
-        self.___cordinates___=Coordinate(lat, long)
+    def setCoordinates(self, lat, long, z):
+        self.___cordinates___=Coordinate(lat, long,z)
     def __str__(self):
         a=self.___airport___
         return "%s, %s, %s"%(a.name, a.city, a.country)
