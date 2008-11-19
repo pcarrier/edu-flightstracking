@@ -32,6 +32,7 @@ def getResponse(place, output='xml'):
             return "Error"
     else:
         return "Error"
+
 def getAirportAdress(filein):
     #TODO: 
     # Parser le doc xml, recupere l'adresse
@@ -56,4 +57,3 @@ if __name__ == "__main__":
         parseResponse(a)
     else:
         printUsage()
-    
