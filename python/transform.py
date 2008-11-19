@@ -6,7 +6,7 @@ import lxml
 from lxml import etree
 import os,sys
 
-def Transform(file_in, xsl_file, file_out):
+def transform(file_in, xsl_file, file_out):
     if os.path.exists(file_in):
         if os.path.exists(xsl_file):
             xml_doc=etree.parse(file_in)
@@ -14,7 +14,6 @@ def Transform(file_in, xsl_file, file_out):
             
             transform=etree.XSLT(xsl_doc)
             result=transform(xml_doc)
-            
             
             f=open(file_out,"w")
             f.write(str(result))
@@ -32,5 +31,4 @@ if __name__=="__main__":
     file_out=sys.argv[3]
     
     print "Transforming %s with xsl stylesheet %s :)"%(file_in, xsl_file)
-    Transform(file_in, xsl_file, file_out)
-    
+    transform(file_in, xsl_file, file_out)

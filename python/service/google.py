@@ -31,7 +31,7 @@ def getResponse(place, proxy=None,output='xml'):
             return r
         else:
             print "REQUEST ERROR :"
-            print "La reponse a retourné un status %s"%response.status
+            print "Status %s"%response.status
             return None
     else:
         return None

@@ -1,12 +1,12 @@
 """
-This script use the relax-ng file given to validate the xml file given.
+This script uses the relax-ng file given to validate the xml file given.
 """
 
 import lxml
 from lxml import etree
 import os,sys
 
-def Validate(xml_file, rng_file):
+def validate(xml_file, rng_file):
     if os.path.exists(xml_file):
         if os.path.exists(rng_file):
             xml_doc=etree.parse(xml_file)
@@ -33,6 +33,5 @@ if __name__=="__main__":
     file_in=sys.argv[1]
     rng_file=sys.argv[2]
     
-    print "Validating %s with rng file %s :)"%(file_in, rng_file)
-    Validate(file_in, rng_file)
-    
+    print "Validating %s with rng file %s"%(file_in, rng_file)
+    validate(file_in, rng_file)
