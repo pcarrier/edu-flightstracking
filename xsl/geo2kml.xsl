@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:f="http://snibbits.net/~gcarrier/ns/tracking"
-                version="1.0"
-                >
- 
+                version="1.0">
+
     <xsl:output method="xml" indent="yes"/>
 
 	<xsl:template match="/">
@@ -13,9 +12,8 @@
     				<xsl:text>Actualité des vols</xsl:text>
     			</xsl:element>
     			<xsl:element name="description">
-    				<xsl:text>Une carte des vols - cliquer sur un symbole pour voir les vols à l'arrivé en provenance de Paris, Orly</xsl:text>
+    				<xsl:text>Une carte des vols - cliquez sur un symbole pour voir les vols à l'arrivée en provenance de Paris, Orly</xsl:text>
     			</xsl:element>
-    		
     			<xsl:apply-templates select="//f:locations"/>
     		</xsl:element>
     	</xsl:element>
