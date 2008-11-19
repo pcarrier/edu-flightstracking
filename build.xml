@@ -1,0 +1,62 @@
+<project name="jing" default="jing.validate" basedir=".">
+	
+    <property file="build.properties" />
+	<property name="eg.path" value="./lib" />
+	  <path id="eg.classpath">
+	    <pathelement path="${eg.path}/jing.jar;" />
+	  </path>
+	 <target name="declare-task">
+	  	<taskdef name="jing" classname="com.thaiopensource.relaxng.util.JingTask"
+	  			classpathref="eg.classpath"/>
+	  </target>
+
+	  <target name="jing.validate" depends="declare-task">
+	    <jing rngfile="rng/${flightSchema}">
+	      <fileset dir="xml" includes="${flightInstance}"/>
+	    </jing>
+	  </target>
+	
+		<target name="jing.validate.TEST" depends="declare-task">
+		    <jing rngfile="rng/${flightSchema}">
+		      <fileset dir="xml" includes="test.xml"/>
+		    </jing>
+		</target>
+	<taskdef resource="pyAntTasks.properties"/>
+		
+		<property name="src.dir" value="python"/>
+		<target name="compile">
+			<py-compile dir="python/tests" pythonpath="python/tests" optimize="0"/>
+		</target>
+		
+		<target name="python.unittest" depends="compile">
+			<py-run script="python/tests/test.py" pythonpath="./python/">
+			</py-run>
+		</target>
+		
+		<target name="python.validate" depends="compile">
+				<py-run script="python/validate.py" pythonpath="./">
+					<arg value="xml/${flightInstance}"/>
+					<arg value="rng/${flightSchema}"/>
+				</py-run>
+		</target>
+	
+		<target name="python.geocode" depends="compile">
+			<py-run script="python/tests/demo_geocoder.py" pythonpath="./python">
+			<arg value="${pyGeocodIn}"/>
+			<arg value="${pyGeocodOut}"/>
+			</py-run>
+		</target>
+	
+		<target name="jing.transform" depends="declare-task">
+			<xslt in="${xslIn}" style="${xslStyle}" out="${xslOut}" />
+		</target>
+	
+	
+	<target name="python.tranform" depends="declare-task">
+		<py-run script="python/transform.py" pythonpath="./">
+			<arg value="${pyxslIn}"/>
+			<arg value="${pyxslStyle}"/>
+			<arg value="${pyxslOut}"/>
+		</py-run>
+	</target>
+</project>

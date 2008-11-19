@@ -53,7 +53,7 @@ class FlightTest(unittest.TestCase):
         self.assertRaises(Exception, Flight,node)
         
     def testFlightConstructor4(self):
-        """ Test Flight.__init__() with a well formed full node with a Namespace. Check if __departure__ and __arrival__ are well instancied"""
+        """ Test Flight.__init__() with a well formed full node with a Namespace. Check if ___departure___ and ___arrival___ are well instancied"""
         rootText='''<?xml version="1.0" encoding="UTF-8"?>
                     <flightsTracking  xmlns="http://snibbits.net/~gcarrier/ns/tracking">
                         <flight name="AF5921" status="canceled">
@@ -65,9 +65,9 @@ class FlightTest(unittest.TestCase):
 
         root=etree.fromstring(rootText)        
         f=Flight(root.getchildren()[0])
-        if not f.__departure__.__class__==Departure:
+        if not f.___departure___.__class__==Departure:
             raise Exception,"Departure is not well instanciated"
-        if not f.__arrival__.__class__==Arrival:
+        if not f.___arrival___.__class__==Arrival:
             raise Exception,"Arrival is not well instanciated"
     def testDepartureConstructor1(self):
         """ Test Departure.__init__() with a well formed node with no namespace"""
@@ -178,7 +178,7 @@ class FlightTest(unittest.TestCase):
 
     def testLocationConstructor2(self):
         """ Test Location.__init__() with a complete node, with no namespace and no sub node 'gate'
-            Check if Place.__airport__ is well instanciated
+            Check if Place.___airport___ is well instanciated
         """
         nodeText='''
                     <location name="ORYW">
@@ -189,15 +189,15 @@ class FlightTest(unittest.TestCase):
         airportNode=node.xpath("//airport")
         l=Location(node)
         
-        if l.__airport__ is not None:
-            if l.__airport__.__class__==Airport:
+        if l.___airport___ is not None:
+            if l.___airport___.__class__==Airport:
                 for attr, value in node.items():
                     if not getattr(l,attr)==value:
-                        raise Exception,"__airport__ is not well instanciated  : (__airport__.%s != node.%s)"%(attr,attr)
+                        raise Exception,"___airport___ is not well instanciated  : (___airport___.%s != node.%s)"%(attr,attr)
             else:
-                raise Exception,"__airport__ is not well instanciated (%s instead of %s)"(l.__airport__.__class__, Airport)
+                raise Exception,"___airport___ is not well instanciated (%s instead of %s)"(l.___airport___.__class__, Airport)
         else:
-            raise Exception,"__airport__ is not well instanciated (None)"
+            raise Exception,"___airport___ is not well instanciated (None)"
     
     def testLocationConstructor3(self):
         """ Test Location.__init__() with a complete node, with no namespace and a sub node 'gate'
@@ -212,11 +212,11 @@ class FlightTest(unittest.TestCase):
         node=etree.fromstring(nodeText)
         l=Location(node)
         gate=node.xpath("//gate")[0]
-        if l.__gate__ is not None and l.__gate__ is not "":
-            if not l.__gate__==gate.get("name"):
-                raise Exception,"__gate__ is not well instanciated (%s)"%l.__gate__.__class__
+        if l.___gate___ is not None:
+            if not l.___gate___.name==gate.get("name"):
+                raise Exception,"___gate___.name is not different than node.get('name')"
         else:
-            raise Exception,"__gate__ is not well instanciated (None)"
+            raise Exception,"___gate___ is not well instanciated (None)"
     def testLocationConstructor4(self):
         """ Test Location.__init__() with an uncomplete node (airport is missing), with no namespace and a sub node 'gate'
             Should fail.
@@ -247,7 +247,7 @@ class FlightTest(unittest.TestCase):
             
     def testLocationConstructor6(self):
         """ Test Location.__init__() with a complete node, with a namespace and a sub node 'gate'
-            Check if Place.__airport__ is well instanciated
+            Check if Place.___airport___ is well instanciated
             Same test as testLocationConstructor2() but with a namespace
         """
         nodeText='''
@@ -259,15 +259,15 @@ class FlightTest(unittest.TestCase):
         airportNode=node.xpath("//f:airport", namespaces={"f":"http://snibbits.net/~gcarrier/ns/tracking"})
         l=Location(node)
         
-        if l.__airport__ is not None:
-            if l.__airport__.__class__==Airport:
+        if l.___airport___ is not None:
+            if l.___airport___.__class__==Airport:
                 for attr, value in node.items():
                     if not getattr(l,attr)==value:
-                        raise Exception,"__airport__ is not well instanciated  : (__airport__.%s != node.%s)"%(attr,attr)
+                        raise Exception,"___airport___ is not well instanciated  : (___airport___.%s != node.%s)"%(attr,attr)
             else:
-                raise Exception,"__airport__ is not well instanciated (%s instead of %s)"(l.__airport__.__class__, Airport)
+                raise Exception,"___airport___ is not well instanciated (%s instead of %s)"(l.___airport___.__class__, Airport)
         else:
-            raise Exception,"__airport__ is not well instanciated (None)"
+            raise Exception,"___airport___ is not well instanciated (None)"
     def testLocationConstructor7(self):
         """ Test Location.__init__() with a complete node, with a namespace and a sub node 'gate'
             Check if Place.__gate__ is well instanciated
@@ -282,9 +282,12 @@ class FlightTest(unittest.TestCase):
         node=etree.fromstring(nodeText)
         l=Location(node)
         gate=node.xpath("//f:gate",namespaces={"f":"http://snibbits.net/~gcarrier/ns/tracking"})[0]
-        if l.__gate__ is not None and l.__gate__ is not "":
-            if not l.__gate__==gate.get("name"):
-                raise Exception,"__gate__ is not well instanciated (%s)"%l.__gate__.__class__
+        if l.___gate___ is not None and l.___gate___ is not "":
+            if l.___gate___.__class__==Gate:
+                if not l.___gate___.name==gate.get("name"):
+                    raise Exception,"__gate__.name is not the same as node.get('name')"
+            else:
+                raise Exception,"__gate__ is not well instanciated (%s)"%l.___gate___.__class__
         else:
             raise Exception,"__gate__ is not well instanciated (None)"
     def testLocationConstructor8(self):
@@ -299,7 +302,100 @@ class FlightTest(unittest.TestCase):
                 '''
         node=etree.fromstring(nodeText)
         self.assertRaises(Exception,Location, node)
-    #TODO : unittests on Location object
+
+        
+
+    def testDepartureToXML(self):
+        """ Test Departure.toXML() with a well formed full  node with no namespace"""
+        nodeText='''<departure datetime="2008-11-03T07:55:00Z" location="ORYW"/>'''
+
+        node=etree.fromstring(nodeText)
+        f= Departure(node)        
+        node2=etree.fromstring(f.toXML())
+        if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
+            raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
+    def testArrivalToXML(self):
+        """ Test Flight.__init__() with a well formed full  node with no namespace"""
+        nodeText='''<arrival datetime="2008-11-03T09:15:00Z" location="NCY"/>'''
+
+        node=etree.fromstring(nodeText)
+        f= Arrival(node)
+        node2=etree.fromstring(f.toXML())
+        
+        if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
+           raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
+    def testGateToXML(self):
+        """ Test Flight.__init__() with a well formed full  node with no namespace"""
+        nodeText='''<gate name="G"/>'''
+
+        node=etree.fromstring(nodeText)
+        g= Gate(node)
+        node2=etree.fromstring(g.toXML())
+        if not etree.tostring(node, pretty_print=True) == etree.tostring(node2,pretty_print=True):
+            raise Exception, "Erreur parsage XML : la chaine produite par la methode toXML() est differente de celle produite par etree a partir du meme noeud"
+    
+    
+    def testLocationToXML(self):
+        lat=13.5 
+        long=5
+        z=0
+        """ Test Location.toXML() with a well formed full  node with no namespace"""
+        nodeText='''<location name="ORYW"><airport code="ORY" name="Orly" city="Paris" country="France"/><gate name="W"/></location>'''
+
+        node=etree.fromstring(nodeText)
+        g= Location(node)
+        
+        g.setCoordinates(lat,long,z)
+        node2=etree.fromstring(g.toXML())
+        
+        for attr, value in node.items():
+            if not node2.get(attr)==value:
+                raise Exception, "Erreur parsage XML : la forme XML obtenue par  Location.toXML() est differente de celle produite par etree a partir du meme noeud"
+
+        
+        #Compare les deux node airports
+        airportNode1=node.xpath("//airport")[0]
+        airportNode2=node2.xpath("//airport")[0]
+        
+        for attr, value in airportNode1.items():
+            if airportNode2.get(attr)!=value:
+                raise Exception, "Instances are differents"
+        
+        # TODO : check if the new node <coordinates> contains the good value.        
+        coordinates=airportNode2.xpath("//coordinates")[0]
+        if coordinates.text!="%s,%s,%s"%(lat, long,z):
+            raise Exception, "Error : coordinate node with '%s' value is different thant '%s,%s,%s'"%(coordinates.text, lat, long,z)
+        
+        
+       
+    def testFlightToXML(self):
+        """ Test Flight.toXML() with a well formed full  node with no namespace."""
+        nodeText='''<flight name="AF5921" status="canceled"><departure datetime="2008-11-03T07:55:00Z" location="ORYW"/><arrival datetime="2008-11-03T09:15:00Z" location="NCY"/></flight>
+                '''
+        flightNode=etree.fromstring(nodeText)
+        f= Flight(flightNode)
+        
+        flightNode2=etree.fromstring(f.toXML())
+        
+        for attr, value in flightNode.items():
+            if flightNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight are differents but builds with the same xml string"
+        
+        
+        depNode=flightNode.xpath("//departure")[0]
+        depNode2=flightNode2.xpath("//departure")[0]
+        
+        for attr, value in depNode.items():
+            if depNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight.departure are differents but builds with the same xml string"
+        
+        arrNode=flightNode.xpath("//arrival")[0]
+        arrNode2=flightNode2.xpath("//arrival")[0]
+        
+        for attr, value in arrNode.items():
+            if arrNode2.get(attr)!=value:
+                raise Exception, "Nodes Flight.departure are differents but builds with the same xml string"
+
 def test_suite():
     tests=[unittest.makeSuite(FlightTest)]
     return unittest.TestSuite(tests)

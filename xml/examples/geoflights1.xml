@@ -2,18 +2,18 @@
 <flightsTracking xmlns="http://snibbits.net/~gcarrier/ns/tracking">
 	<flights>
 		<flight name="AF5921" status="canceled">
-			<departure datetime="2008-11-03T07:55:00Z" location="NCY"/>
-			<arrival datetime="2008-11-03T09:15:00Z" location="ORYW"/>
+			<departure datetime="2008-11-03T07:55:00Z" location="ORYW"/>
+			<arrival datetime="2008-11-03T09:15:00Z" location="NCY"/>
 		</flight>
 		<flight name="AF5927" status="pending">
-			<departure datetime="2008-11-03T15:25:00Z" location="ORYW"/>
-			<arrival datetime="2008-11-03T16:40:00Z" location="NCY"/>
+			<departure datetime="2008-11-03T15:25:00Z" location="NCY"/>
+			<arrival datetime="2008-11-03T16:40:00Z" location="ORYW"/>
 		</flight>
-		<flight name="AF5927" status="flying">
+		<flight name="AF5928" status="flying">
 			<departure datetime="2008-11-03T11:30:00Z" location="ORYW"/>
 			<arrival datetime="2008-11-03T12:50:00Z" location="NCY"/>
 		</flight>
-		<flight name="AF5927" status="pending">
+		<flight name="AF5929" status="pending">
 			<departure datetime="2008-11-03T19:25:00Z" location="ORYW"/>
 			<arrival datetime="2008-11-03T20:45:00Z" location="NCY"/>
 		</flight>
@@ -22,9 +22,11 @@
 		<location name="ORYW">
 			<airport code="ORY" name="Orly" city="Paris" country="France" />
 			<gate name="W"/>
+			<coordinates>5.7250776, 45.1760751</coordinates>
 		</location>
 		<location name="NCY">
 			<airport code="NCY" name="Annecy Meythet" city="Annecy" country="France" />
+			<coordinates>5.7250776, 45.1760751</coordinates>
 		</location>
 	</locations>
 </flightsTracking>
