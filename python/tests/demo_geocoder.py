@@ -9,13 +9,13 @@ sys.path.append("../")
 from flighttracking.flight import *
 from service import google
 
-def loadFile(file_in):
+def loadFile(xmlString):
     locations={}
-    if os.path.exists(file_in):
-        xml_doc=etree.parse(file_in)
-        root=xml_doc.getroot()
-        T=FlightsTracking(root)
-        return T
+    #if os.path.exists(file_in):
+        #xml_doc=etree.parse(file_in)
+    xml_doc=etree.XML(xmlString)
+    T=FlightsTracking(xml_doc)
+    return T
 def geoCode(doc):
     for loc in doc["locations"]:
         lat, long,z=getLatLong(str(loc))
@@ -25,14 +25,13 @@ def geoCode(doc):
             raise Exception, "Can't obtains Coordinates"
     return doc
 def getLatLong(place):
-    #rep=google.getResponse("Aéroport "+place, proxy=("www-cache","3128"))
     rep=google.getResponse("Aéroport "+place)
-    
     if rep is not None:
         try:
             root=etree.XML(rep)
         except:
             #File contains an utf-8 declaration but it's in fact iso-8859-1.....
+            
             root=etree.XML(rep.replace("UTF-8","iso-8859-1"))
     coordinates=root.xpath("//g:coordinates",namespaces={"g":root.nsmap[None]})
     if len(coordinates)>0:
@@ -42,12 +41,13 @@ def getLatLong(place):
         return (None, None, None) 
 def save(doc, file_out):
     f=open(file_out,"w")
-    f.write(doc.toXML())
+    f.write(doc.tostring())
     f.close()
     
 if __name__=="__main__":
     file_in=sys.argv[1]
     file_out=sys.argv[2]
-    doc=loadFile(file_in)
+    f=open(file_in)
+    doc=loadFile(f.read())
     doc=geoCode(doc)
     save(doc, file_out)
