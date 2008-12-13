@@ -15,19 +15,23 @@ class hello:
         if not name: 
             name = 'world'
         return 'Hello, ' + name + '!'
+    def POST(self, name):
+        pass
 
 class main:
     def GET(self):
-        pass
+        web.redirect('/static/main.html')
 
 class flights:
     def GET(self):
         pass
-
+    def POST(self):
+        pass
+        
 class html:
     def GET(self):
         pass
-
+    
 class kml:
     def GET(self):
         pass

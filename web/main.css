@@ -1,16 +1,31 @@
-html, body
-{
+html, body {
     background-color:white;
     color: black;
     margin: 0;
     padding: 0;
 }
 
-a, a:hover, a:visited
-{
-    background-color: black;
+body {
+    margin-top: 2em;
+}
+
+a, a:hover, a:visited {
+    background-color: #008;
     color: white;
     text-decoration: none;
+}
+
+a:hover {
+    color: yellow;
+}
+
+body, div {
+    border: 1px dotted #aaa;
+}
+
+div {
+    background-color: #eee;
+    color: #008;
 }
 
 div#menu
@@ -19,6 +34,4 @@ div#menu
     top: 0;
     left: 0;
     width: 100%;
-    color: #007;
-    background-color: #ddd;
 }
