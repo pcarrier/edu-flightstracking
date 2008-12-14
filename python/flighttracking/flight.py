@@ -33,7 +33,7 @@ class Location(object):
             E = Element("coordinates")
             E.text = "%s, %s, %s" % (lat, long, z)
             self.__node__.append(E)
-            print lat, long, z
+            #print lat, long, z
         elif len(coordinates) == 1:
             coordinates[0].text = "%s, %s, %s" % (lat, long, z)
         elif len(coordinates)>1:
@@ -221,14 +221,14 @@ class FlightsTracking(object):
     def geocode(self):
         doc=self
         for loc in doc.locations:
-            print "Location : ",loc
+            #print "Location : ",loc
             lat, long,z=self._obtainLatLong(str(loc))
             if lat is not None and long is not None and z is not None:
                 loc.setCoordinates(lat,long,z)
-                print "LOC GEOCODED",loc.getcoordinates()
+                #print "LOC GEOCODED",loc.getcoordinates()
             else:
                 raise Exception, "Can't obtains Coordinates"
-        print doc.tostring()        
+        #print doc.tostring()        
         return doc
     def _obtainLatLong(self, place):
         rep=google.getResponse("Aéroport "+place)
