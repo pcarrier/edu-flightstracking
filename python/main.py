@@ -2,22 +2,18 @@
 import sys
 sys.path.append("webpy/")
 import web
+from flighttracking.flight import *
+
+flightsXML = open("../xml/examples/flights1.xml","r").read()
+flights = FlightsTracking(flightsXML)
 
 urls = (
     '/', 'main',
     '/flights.xml', 'flights',
-    '/flights.html', 'html',
-    '/doc.kml', 'kml',
+    '/flights.kml', 'kml'
     )
-app = web.application(urls, globals())
 
-class hello:
-    def GET(self, name):
-        if not name: 
-            name = 'world'
-        return 'Hello, ' + name + '!'
-    def POST(self, name):
-        pass
+app = web.application(urls, globals())
 
 class main:
     def GET(self):
@@ -25,17 +21,13 @@ class main:
 
 class flights:
     def GET(self):
-        pass
+        return flights.tostring()
     def POST(self):
-        pass
-        
-class html:
-    def GET(self):
         pass
     
 class kml:
     def GET(self):
-        pass
+        return flights.tokml()
 
 if __name__ == "__main__":
     app.run()
