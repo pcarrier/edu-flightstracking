@@ -78,7 +78,7 @@
     				</xsl:element>
     		<xsl:element name="Point">
 	    		<xsl:element name="coordinates">
-	    			<xsl:value-of select="./f:coordinates"/>
+	    			<xsl:value-of select="./coordinates"/>
 	    		</xsl:element>
     		</xsl:element>
     		</xsl:element>
