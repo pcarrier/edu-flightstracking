@@ -39,10 +39,6 @@ Interface
 
 Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous avons très largement utilisé la librairie ``prototype`` pour simplifier les interactions avec le ``DOM``. Les tests n'ont été effectués que sous Firefox et Midori, Internet Explorer est probablement très mal pris en charge.
 
-Performance
------------
-
-Nous avons, à titre récréatif, intégré le support de ``memcached`` dans le service de géolocalisation.
 
 Gestion des sources
 -------------------
@@ -54,9 +50,12 @@ Etablissement du format XML
 ----------------------------
 Notre premier travail fût d'établir un format XML cohérent avec la représeantation
 des données voulues.
+D'après l'énoncé, et le site nous avons établi le document XML suivant :
 
 Etablissement du schéma RELAX-NG
 --------------------------------
+
+Nous avons par la suite développé le diagramme relax-ng **tracking.rng**, situé dans le répertoire rng.
 
 Représentation Objet de notre document XML
 ------------------------------------------
@@ -80,4 +79,11 @@ Geocodage des aéroports :
 Nous avons développé un programme d'essais permettant de géocoder les   
 noeuds de type **location**
 
-Appelé demo_geocoder
+Appelé **demo_geocoder**, effectue des opérations simples :
+
+#. Chargement du fichier xml en mémoire ;
+#. Geocodage et ajout d'un noeud **coordinates** pour chaque noeud **location** ;
+#. Sauvegarde dans un fichier ;
+
+
+

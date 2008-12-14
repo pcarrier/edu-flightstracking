@@ -32,6 +32,7 @@ if __name__=="__main__":
         #print a.tostring()
         #print doc.tostring()
         save(doc, file_out)
-        print doc.tokml()
+        #print doc.tokml()
+        print "Ended"
     else:
         usage()
