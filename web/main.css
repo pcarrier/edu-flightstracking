@@ -92,5 +92,6 @@ div.active {
 pre#log {
     color: #0F0;
     background-color: black;
-    border: 2px solid #F00;
+    border: 2px dashed #0F0;
+    padding: 0.5em;
 }

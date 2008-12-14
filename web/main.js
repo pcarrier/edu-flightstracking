@@ -88,20 +88,20 @@ function reloadRO() {
 }
 
 function updated() {
-    $('xmlForm').request('/flights.xml',
-			 {
-			     method: 'post',
-			     onSuccess: function(transport)
-				 {
-				     appendLog('Updated from textarea.');
-				     reloadRO();
-				 },
-				 onFailure: function(transport)
-				 {
-				     appendLog('Updating from textarea failed!');
-				 }
-			 }
-			 );
+    ajax = $('xmlForm').request(
+				{
+				    method: 'post',
+				    onSuccess: function(transport)
+				    {
+					appendLog('Updated from textarea.');
+					reloadRO();
+				    },
+				    onFailure: function(transport)
+				    {
+					appendLog('Updating from textarea failed!');
+				    }
+				}
+				);
 }
 
 function loaded() {

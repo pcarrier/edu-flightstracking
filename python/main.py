@@ -6,6 +6,7 @@ from flighttracking.flight import *
 
 flightsXML = open("../xml/examples/flights1.xml","r").read()
 flights = FlightsTracking.fromstring(flightsXML)
+geoflights = FlightsTracking.fromstring(flightsXML).geocode()
 
 urls = (
     '/', 'main',
@@ -24,15 +25,18 @@ class native:
     def GET(self):
         return flights.tostring()
     def POST(self):
-        pass
+        print web.input()
+        flights = FlightsTracking.fromstring(flightsXML)
+        geoflights = FlightsTracking.fromstring(flightsXML).geocode()
+        return "OK"
 
 class geonative:
     def GET(self):
-        return flights.geocode().tostring()
+        return geoflights.tostring()
     
 class kml:
     def GET(self):
-        return flights.geocode().tokml()
+        return geoflights.tokml()
 
 if __name__ == "__main__":
     app.run()

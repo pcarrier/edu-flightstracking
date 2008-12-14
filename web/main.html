@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" version="XHTML 1.1" xml:lang="en">
   <head>
     <title>flights tracking demo</title>
@@ -8,25 +7,25 @@
     <link href="/static/main.css" rel="stylesheet" type="text/css" />
     <script src="/static/main.js" type="text/javascript"></script>
     <script src="/static/prototype.js" type="text/javascript"></script>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAEfld-HbDFV-K6_hMQ2u75BRaTD5WKraFggisilNvbD7WKdJFzhSJI5-BrVvc9sQVatFBUhKh7vlJ0A" type="text/javascript"></script>
   </head>
   <body>
     <div id="menu" class="bloc">
       additional info::
-      <a href="/static/rapport.html">report</a>
-      <a href="/static/COPYING.txt">licence</a>
+      <a href="/static/report.html">report</a>
+      <a href="/static/COPYING.txt">COPYING</a>
     </div>
     <h1>flights tracking demo::</h1>
     <h2 id="xmltitle">XML</h2>
     <h2 id="geoxmltitle">GeoXML</h2>
-    <h2 id="kmltitle">Generated KML</h2>
+    <h2 id="kmltitle">KML</h2>
     <h2 id="maptitle">Google Maps</h2>
     <div class="clear"></div>
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
-	<form name="xmlForm">
+	<form id="xmlForm" name="xmlForm" action="/flights.xml">
 	  <div style="float:right;">
-	    <button onclick="updated();"/>Update</button><br/>
+	    <a href="#" onclick="updated();">Update</a>
 	  </div>
 	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
