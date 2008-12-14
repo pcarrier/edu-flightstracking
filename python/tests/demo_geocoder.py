@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
+
 import lxml
 from lxml import etree
 import unittest
@@ -51,3 +53,5 @@ if __name__=="__main__":
     doc=loadFile(f.read())
     doc=geoCode(doc)
     save(doc, file_out)
+    
+    print doc.tokml()

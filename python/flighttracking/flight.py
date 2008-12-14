@@ -3,6 +3,10 @@ import lxml
 from lxml import etree
 import re
 from lxml.etree import Element, tostring
+import os, sys
+
+sys.path.append("../")
+from settings import FlightNS, xsltfile
 
 class Location():
     __node__=None
@@ -10,7 +14,7 @@ class Location():
     def __init__(self, node):
         self.__node__=node
         try:
-            airports = self.__node__.xpath("./f:airport",namespaces={"f":self.__node__.nsmap[None]})
+            airports = self.__node__.xpath("./f:airport",namespaces={"f":FlightNS})
         except:
             airports = self.__node__.xpath("./airport")
         if(len(airports)!=1):
@@ -39,8 +43,8 @@ class FlightsTracking():
                 flightsXp = "//f:flights/f:flight"
                 locationsXp = "//f:locations/f:location"
                 
-                flightsNode = node.getroot().xpath(flightsXp,namespaces={"f":node.getroot().nsmap[None]})
-                locationsNode = node.getroot().xpath(locationsXp,namespaces={"f":node.getroot().nsmap[None]})
+                flightsNode = node.getroot().xpath(flightsXp,namespaces={"f":FlightNS})
+                locationsNode = node.getroot().xpath(locationsXp,namespaces={"f":FlightNS})
             except:
                 flightsXp = "//flights/flight"
                 locationsXp = "//locations/location"
@@ -57,3 +61,13 @@ class FlightsTracking():
         return getattr(self, "___%s___"%attr)
     def tostring(self):
         return tostring(self.__node__)
+    def apply_xsl(self, xsl_file):
+        if os.path.exists(xsl_file):
+            xsl_doc = etree.parse(xsl_file)
+            transform = etree.XSLT(xsl_doc)
+            return str(transform(self.__node__))
+        else:
+            raise Exception,"Le ficher %s n'existe pas."%xsl_file
+    def tokml(self):
+        return self.apply_xsl(xsltfile)
+        
