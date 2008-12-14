@@ -37,20 +37,21 @@ class FlightsTracking():
     ___flights___ = []
     ___locations___ = []
     __nodename__ = "flightsTracking"
-    def __init__(self, node):
-            self.__node__=node
+    def __init__(self, xmlString):
+        
+            self.__node__=etree.XML(xmlString)
             try:
                 flightsXp = "//f:flights/f:flight"
                 locationsXp = "//f:locations/f:location"
                 
-                flightsNode = node.getroot().xpath(flightsXp,namespaces={"f":FlightNS})
-                locationsNode = node.getroot().xpath(locationsXp,namespaces={"f":FlightNS})
+                flightsNode = self.__node__.getroot().xpath(flightsXp,namespaces={"f":FlightNS})
+                locationsNode = self.__node__.getroot().xpath(locationsXp,namespaces={"f":FlightNS})
             except:
                 flightsXp = "//flights/flight"
                 locationsXp = "//locations/location"
                 
-                flightsNode = node.xpath(flightsXp)
-                locationsNode = node.xpath(locationsXp)
+                flightsNode = self.__node__.xpath(flightsXp)
+                locationsNode = self.__node__.xpath(locationsXp)
             for fnode in flightsNode:
                 self.___flights___.insert(- 1, fnode)            
             for lnode in locationsNode:
