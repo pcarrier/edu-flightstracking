@@ -88,3 +88,9 @@ div.onglet {
 div.active {
     display: block;
 }
+
+pre#log {
+    color: #0F0;
+    background-color: black;
+    border: 2px solid #F00;
+}

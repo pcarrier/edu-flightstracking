@@ -1,5 +1,3 @@
-//alert("Version beta !");
-
 var onglets = new Array('xml','geoxml','kml','map');
 
 function switchto(onglet) {
@@ -25,7 +23,21 @@ function appendLog(text) {
     $('log').insert({'top': dateString + ": " + text + '\n'});
 }
 
+function reloadFlights() {
+    new Ajax.Request('/flights.xml', {
+	    method: 'get',
+		onSuccess: function(transport) {
+		$('flights').update(transport.responseText);
+		appendLog('Reloaded textarea.');
+	    },
+		onFailure: function(transport) {
+		appendLog('Reloading textarea failed!');
+	    }
+    });
+}
+
 function loaded() {
-    appendLog('Interface loaded!');
     switchto(onglets[0]);
+    reloadFlights();
+    appendLog('Interface loaded!');
 }
