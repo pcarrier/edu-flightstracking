@@ -10,9 +10,9 @@ geoflights = FlightsTracking.fromstring(flightsXML).geocode()
 
 urls = (
     '/', 'main',
-    '/flights.xml', 'native',
-    '/geoflights.xml', 'geonative',
-    '/flights.kml', 'kml'
+    '/flights\.xml', 'native',
+    '/geoflights\.xml', 'geonative',
+    '/flights.*\.kml', 'kml'
     )
 
 app = web.application(urls, globals())

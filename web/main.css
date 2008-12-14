@@ -81,7 +81,7 @@ div#map {
     height: 400px;
 }
 
-div.onglet {
+div.onglet, .invisible {
     display: none;
 }
 

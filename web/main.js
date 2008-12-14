@@ -18,16 +18,27 @@ function switchto(tab) {
     appendLog('Switched to ' + tab + '.');
 }
 
+var map;
+var gx;
+
 function loadMap() {
     if (GBrowserIsCompatible()) {
-        var map = new GMap2(document.getElementById("map"));
-	var gx = new GGeoXml("http://koon.fr:8080/flights.kml");
+	map = new GMap2(document.getElementById("map"));
+	gx = new GGeoXml("http://koon.fr:8080/flights"+Math.random()+".kml");
 	map.addOverlay(gx);
 	map.enableGoogleBar();
-        map.setCenter(new GLatLng(46.316, 3.1640), 5);
+	map.setCenter(new GLatLng(46.316, 3.1640), 5);
 	map.addControl(new GLargeMapControl());
 	map.addControl(new GMapTypeControl());
+	$('loadb').addClassName('invisible');
+	$('reloadb').removeClassName('invisible');
     }
+}
+
+function reloadOverlay() {
+    map.clearOverlays();
+    gx = new GGeoXml("http://koon.fr:8080/flights.kml?r="+Math.random());
+    map.addOverlay(gx);
 }
 
 function appendLog(text) {
@@ -104,6 +115,24 @@ function updated() {
 				    onFailure: function(transport)
 				    {
 					appendLog('Updating from textarea failed!');
+				    }
+				}
+				);
+}
+
+function fileimport() {
+    ajax = $('fileForm').request(
+				{
+				    method: 'post',
+				    onSuccess: function(transport)
+				    {
+					appendLog('Updated from file.');
+					reloadXML();
+					reloadRO();
+				    },
+				    onFailure: function(transport)
+				    {
+					appendLog('Updating from file failed!');
 				    }
 				}
 				);

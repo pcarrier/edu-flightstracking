@@ -12,7 +12,7 @@
   <body>
     <div id="menu" class="bloc">
       additional info::
-      <a href="/static/report.html">report</a>
+      <a href="/static/doc/">report</a>
       <a href="/static/COPYING.txt">COPYING</a>
     </div>
     <h1>flights tracking demo::</h1>
@@ -29,32 +29,22 @@
 	  </div>
 	  <textarea rows="10" style="width:80%;" id="flights" name="flights"></textarea>
 	</form>
-	<h3>File operations::</h3>
-	<div style="width:49%;float:left;">
-	  <h4>Upload</h4>
-	  <form method="post" action="">
-	    <input type="file" name="xmlfile"/>
-	    <input type="submit" value="Upload"/>
-	  </form>
-	</div>
-	<div style="width:49%;float:right;">
-	  <h4>Download</h4>
+	  <h3>Download</h3>
 	  <a href="/flights.xml">flights.xml</a>
-	</div>
-	<div class="clear"></div>
       </div>
       <div id="geoxmlcontent" class="onglet">
 	<pre id="geoxml"></pre>
-	<h3>Download</h4>
+	<h3>Download</h3>
 	<a href="/geoflights.xml">geoflights.xml</a>
       </div>
       <div id="kmlcontent" class="onglet">
 	<pre id="kml"></pre>
-	<h3>Download</h4>
+	<h3>Download</h3>
 	<a href="/flights.kml">flights.kml</a>
       </div>
       <div id="mapcontent" class="onglet">
-	<a href="#" onclick="loadMap();">load</a>
+	<a href="#" onclick="loadMap();" id="loadb">load</a>
+	<a href="#" onclick="reloadOverlay();" id="reloadb" class="invisible">reload</a>
 	<div id="map">
 	</div>
       </div>
