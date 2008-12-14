@@ -28,8 +28,7 @@
     		<xsl:element name="Placemark">		
    					<xsl:element name="name"><xsl:value-of select="./f:airport/@name"/></xsl:element>
     				
-    				<xsl:element name="description">
-    				  
+    				<xsl:element name="description">  
     				<xsl:choose>
 	    			<xsl:when test="count(//f:flights/f:flight/f:arrival[@location=$locationName])>0">
 	    			<xsl:for-each select="//f:flights/f:flight/f:arrival[@location=$locationName]">
@@ -83,7 +82,6 @@
 	    		</xsl:element>
     		</xsl:element>
     		</xsl:element>
-
     	</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>

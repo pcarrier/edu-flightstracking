@@ -41,7 +41,7 @@
 	</target>
 
 	<target name="python.geocode" depends="compile">
-		<py-run script="python/tests/demo_geocoder.py" pythonpath="./python">
+		<py-run script="python/tests/demo_geocoder.py" pythonpath="./python/">
 			<arg value="${pyGeocodIn}"/>
 			<arg value="${pyGeocodOut}"/>
 		</py-run>
