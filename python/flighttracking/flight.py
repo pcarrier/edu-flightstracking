@@ -3,7 +3,7 @@ import lxml
 from lxml import etree
 import re
 from lxml.etree import Element, tostring
-import os, sys
+import os, sys, copy
 
 sys.path.append("../")
 from settings import FlightNS, xsltfile
@@ -190,8 +190,6 @@ class FlightsTracking(object):
     
     def __init__(self, node):
             self.__node__ = node
-            print node.nsmap.values()[0]
-
             flightsXp = "//f:flights"
             locationsXp = "//f:locations"
 
@@ -209,13 +207,13 @@ class FlightsTracking(object):
         if os.path.exists(xsl_file):
             xsl_doc = etree.parse(xsl_file)
             transform = etree.XSLT(xsl_doc)
-            return str(transform(self.__node__))
+            return etree.tostring(transform(self.__node__), pretty_print=True)
+            #return etree.tostring(transform(self.__node__))
         else:
             raise Exception,"Le ficher %s n'existe pas."%xsl_file
     
     def geocode(self):
-        print "Starting Geocoding"
-        doc=self
+        doc=copy.deepcopy(self)
         for loc in doc.locations:
             lat, long,z=self._obtainLatLong(str(loc))
             if lat is not None and long is not None and z is not None:
@@ -239,7 +237,8 @@ class FlightsTracking(object):
             return (None, None, None) 
     def tokml(self):
         return self.apply_xsl(xsltfile)
-
+    def tohtml(self):
+        pass
     @classmethod
     def fromstring(cls, xmlString):
         xml_doc = etree.XML(xmlString)
