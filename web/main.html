@@ -25,7 +25,10 @@
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
 	<form method="post" action="">
-	  <input type="submit" value="Update" style="float:right;"/> 
+	  <div style="float:right;">
+	    <input type="submit" value="Update"/><br/>
+	    <input type="reset" value="Reset"/>
+	  </div>
 	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
 	<h3>File operations::</h3>
@@ -49,9 +52,9 @@
 	<pre id="kml"></pre>
       </div>
       <div id="mapcontent" class="onglet">
+	<a href="#" onclick="loadMap();">load</a>
 	<div id="map">
 	</div>
-	<a href="#" onclick="loadMap();">load</a>
       </div>
     </div>
     <h3>Log::</h3>
