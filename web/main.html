@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/>
     <link href="/static/main.css" rel="stylesheet" type="text/css" />
     <script src="/static/main.js" type="text/javascript"></script>
+    <script src="/static/prototype.js" type="text/javascript"></script>
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAEfld-HbDFV-K6_hMQ2u75BRaTD5WKraFggisilNvbD7WKdJFzhSJI5-BrVvc9sQVatFBUhKh7vlJ0A" type="text/javascript"></script>
   </head>
   <body>
@@ -17,16 +18,17 @@
       <a href="/static/COPYING.txt">licence</a>
     </div>
     <h1>flights tracking demo::</h1>
-    <h2>XML::</h2>
-    <div id="xml" style="text-align:center;">
-      <div id="xmlcontent" class="bloc">
+    <h2 href="#" id="xmltitle" onclick="switchto('xml');">XML</h2>
+    <h2 href="#" id="geoxmltitle" onclick="switchto('geoxml');">Geolocalized version</h2>
+    <h2 href="#" id="kmltitle" onclick="switchto('kml');">Generated KML</h2>
+    <h2 href="#" id="maptitle" onclick="switchto('map');">Google Maps</h2>
+    <div class="clear"></div>
+    <div id="main" class="bloc">
+      <div id="xmlcontent" class="onglet" style="text-align:center;">
 	<form method="post" action="">
 	  <input type="submit" value="Modifier" style="float:right;"/> 
 	  <textarea rows="10" style="width:80%;"></textarea>
 	</form>
-      </div>
-      <div style="clear:both;"></div>
-      <div class="bloc">
 	<h3>File operations::</h3>
 	<div style="width:49%;float:left;">
 	  <h4>Upload</h4>
@@ -39,21 +41,18 @@
 	  <h4>Download</h4>
 	  <a href="/flights.xml">flights.xml</a>
 	</div>
-	<div style="clear:both;"></div>
+	<div class="clear"></div>
+      </div>
+      <div id="geoxmlcontent" class="onglet">
+      </div>
+      <div id="kmlcontent" class="onglet">
+      </div>
+      <div id="mapcontent" class="onglet">
+	<div id="map">
+	</div>
+	<a href="#" onclick="loadMap();">load</a>
       </div>
     </div>
-    <div style="clear:both;"></div>
-    <h2>Geolocalized version::</h2>
-    <div id="geoxmlcontent" class="bloc">
-    </div>
-    <h2>Generated KML::</h2>
-    <div id="kmlcontent" class="bloc">
-    </div>
-    <h2>Google Maps::</h2>
-    <div id="maps" class="bloc">
-      <div id="map">
-      </div>
-      <a href="#" onclick="loadMap();">load</a>
-    </div>
+    <script>loaded();</script>
   </body>
 </html>
