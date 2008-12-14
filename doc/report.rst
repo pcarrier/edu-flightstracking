@@ -50,12 +50,12 @@ Etablissement du format XML
 ----------------------------
 Notre premier travail fût d'établir un format XML cohérent avec la représeantation
 des données voulues.
-D'après l'énoncé, et le site nous avons établi le document XML suivant :
+D'après l'énoncé, et le site nous avons établi le document XML **flights.xml** situé dans le répertoire **xml/**.
 
 Etablissement du schéma RELAX-NG
 --------------------------------
 
-Nous avons par la suite développé le diagramme relax-ng **tracking.rng**, situé dans le répertoire rng.
+Nous avons par la suite développé le diagramme relax-ng **tracking.rng**, situé dans le répertoire **rng/**.
 
 Représentation Objet de notre document XML
 ------------------------------------------
@@ -85,5 +85,13 @@ Appelé **demo_geocoder**, effectue des opérations simples :
 #. Geocodage et ajout d'un noeud **coordinates** pour chaque noeud **location** ;
 #. Sauvegarde dans un fichier ;
 
+Transformation en KML
+---------------------
 
+
+Programmes intermédiaires.
+--------------------------
+Comme demandé dans l'énnoncé, nous avons au cour de notre développement crées de simples scripts utilisants
+la librairie python ``lxml`` afin d'appliquer  le geocodage et d'appliquer le fichier **xsl** décrit plus haut.
+Ces deux scripts sont situés dans le répertoire 
 
