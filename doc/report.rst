@@ -47,3 +47,16 @@ Gestion des sources
 
 Ce projet fut également l'occasion d'expérimenter avec les méthodologies de développement. Nous avons notamment délégué la gestion des sources à ``git``.
 
+
+Etablissement du format XML
+----------------------------
+Notre premier travail fût d'établir un format XML cohérent avec la représeantation
+des données voulues.
+
+Etablissement du schéma RELAX-NG
+--------------------------------
+
+Geocodage des aéroports :
+-------------------------
+Nous avons développé un programme d'essais permettant de géocoder les   
+noeuds de type **location**
