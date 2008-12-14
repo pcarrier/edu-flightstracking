@@ -29,8 +29,6 @@ class native:
 class geonative:
     def GET(self):
         return flights.geocode().tostring()
-    def POST(self):
-        pass
     
 class kml:
     def GET(self):

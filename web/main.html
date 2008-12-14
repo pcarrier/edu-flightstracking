@@ -24,10 +24,9 @@
     <div class="clear"></div>
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
-	<form method="post" action="">
+	<form name="xmlForm">
 	  <div style="float:right;">
-	    <input type="submit" value="Update"/><br/>
-	    <input type="reset" value="Reset"/>
+	    <button onclick="updated();"/>Update</button><br/>
 	  </div>
 	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
@@ -47,9 +46,13 @@
       </div>
       <div id="geoxmlcontent" class="onglet">
 	<pre id="geoxml"></pre>
+	<h3>Download</h4>
+	<a href="/geoflights.xml">geoflights.xml</a>
       </div>
       <div id="kmlcontent" class="onglet">
 	<pre id="kml"></pre>
+	<h3>Download</h4>
+	<a href="/flights.kml">flights.kml</a>
       </div>
       <div id="mapcontent" class="onglet">
 	<a href="#" onclick="loadMap();">load</a>
