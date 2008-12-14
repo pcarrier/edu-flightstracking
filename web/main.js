@@ -9,6 +9,7 @@ function switchto(onglet) {
     }
     $(onglet + 'title').addClassName('active');
     $(onglet + 'content').addClassName('active');
+    appendLog('Switched to ' + onglet);
 }
 
 function loadMap() {
@@ -18,6 +19,13 @@ function loadMap() {
     }
 }
 
+function appendLog(text) {
+    var today = new Date();
+    var dateString = today.toLocaleString();
+    $('log').insert({'top': dateString + ": " + text + '\n'});
+}
+
 function loaded() {
+    appendLog('Interface loaded!');
     switchto(onglets[0]);
 }

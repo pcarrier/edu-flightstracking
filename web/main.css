@@ -16,12 +16,18 @@ h2 {
     padding: 0.2em;
     background-color: white;
     font-size: 1em;
+    cursor: pointer;
 }
 
 h2.active {
     background-color: #ddd;
     border: 1px solid black;
     border-bottom: 1px solid #ddd;
+    cursor: default;
+}
+
+h3 {
+    margin-top: 1em;
 }
 
 html, body {
