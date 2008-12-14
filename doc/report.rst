@@ -62,8 +62,10 @@ Représentation Objet de notre document XML
 ------------------------------------------
 Nous avons développée des classes **python** ayant en charge toutes les opérations sur le document xml.
 La classe principale est la classe FlightTracking. Elle contient deux objets permettant d'effectuer les
-opérations sur les vols (**flights**) et les localisations (**locations**).
-Ces deux objets contiennent des listes d'objets **flight** et **location**.
+opérations sur les vols et les localisations.
+Ces deux objets contiennent des listes d'objets **flight** et **location**, indexés par leur nom.
+Nous avons choisis d'implémenter des méthodes d'ajout et de suppression, afin de garder une cohérence
+sur l'indéxation de ces objets lors d'un changement de nom.
 
 La classe **FlightTracking** contient la méthode **geocode**, celle-ci faisant les appels à notre interface
 du webservice de geocodage de |google|, situés dans le module **service**.
