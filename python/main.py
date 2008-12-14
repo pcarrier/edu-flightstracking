@@ -25,7 +25,8 @@ class native:
     def GET(self):
         return flights.tostring()
     def POST(self):
-        print web.input()
+        global flights, flightsXML, geoflights
+        flightsXML = web.input().flights
         flights = FlightsTracking.fromstring(flightsXML)
         geoflights = FlightsTracking.fromstring(flightsXML).geocode()
         return "OK"

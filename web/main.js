@@ -21,7 +21,12 @@ function switchto(tab) {
 function loadMap() {
     if (GBrowserIsCompatible()) {
         var map = new GMap2(document.getElementById("map"));
+	var gx = new GGeoXml("http://koon.fr:8080/flights.kml");
+	map.enableGoogleBar();
         map.setCenter(new GLatLng(46.316, 3.1640), 5);
+	map.addControl(new GLargeMapControl());
+	map.addControl(new GMapTypeControl());
+	map.addOverlay(gx);
     }
 }
 
