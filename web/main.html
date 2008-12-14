@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" version="XHTML 1.1" xml:lang="en">
   <head>
     <title>flights tracking demo</title>
@@ -24,11 +23,11 @@
     <div class="clear"></div>
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
-	<form name="xmlForm">
+	<form id="xmlForm">
 	  <div style="float:right;">
-	    <button onclick="updated();"/>Update</button><br/>
+	    <button onclick="updated();">Update</button>
 	  </div>
-	<textarea rows="10" style="width:80%;" id="flights"></textarea>
+	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
 	<h3>File operations::</h3>
 	<div style="width:49%;float:left;">
