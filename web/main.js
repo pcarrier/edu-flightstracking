@@ -24,7 +24,7 @@ var gx;
 function loadMap() {
     if (GBrowserIsCompatible()) {
 	map = new GMap2(document.getElementById("map"));
-	gx = new GGeoXml("http://koon.fr:8080/flights.kml?r="+Math.random());
+	gx = new GGeoXml("http://koon.fr:8080/flights"+Math.random()+".kml");
 	map.addOverlay(gx);
 	map.enableGoogleBar();
 	map.setCenter(new GLatLng(46.316, 3.1640), 5);
