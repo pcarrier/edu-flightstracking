@@ -15,7 +15,7 @@ function switchto(tab) {
     }
     $(tab + 'title').addClassName('active');
     $(tab + 'content').addClassName('active');
-    appendLog('Switched to ' + tab);
+    appendLog('Switched to ' + tab + '.');
 }
 
 function loadMap() {
@@ -32,42 +32,54 @@ function appendLog(text) {
 }
 
 function reloadGeoXML() {
-    new Ajax.Request('/geoflights.xml', {
-	    method: 'get',
-		onSuccess: function(transport) {
-		$('geoxml').update(transport.responseText.escapeHTML());
-		appendLog('Reloaded GeoXML.');
-	    },
-		onFailure: function(transport) {
-		appendLog('Reloading GeoXML failed!');
-	    }
-    });    
+    new Ajax.Request('/geoflights.xml',
+		     {
+			 method: 'get',
+			     onSuccess: function(transport)
+			     {
+				 $('geoxml').update(transport.responseText.escapeHTML());
+				 appendLog('Reloaded GeoXML.');
+			     },
+			     onFailure: function(transport)
+			     {
+				 appendLog('Reloading GeoXML failed!');
+			     }
+		     }
+		     );
 }
 
 function reloadKML() {
-    new Ajax.Request('/flights.kml', {
-	    method: 'get',
-		onSuccess: function(transport) {
-		$('kml').update(transport.responseText.escapeHTML());
-		appendLog('Reloaded KML.');
-	    },
-		onFailure: function(transport) {
-		appendLog('Reloading KML failed!');
-	    }
-    });    
+    new Ajax.Request('/flights.kml',
+		     {
+			 method: 'get',
+			     onSuccess: function(transport)
+			     {
+				 $('kml').update(transport.responseText.escapeHTML());
+				 appendLog('Reloaded KML.');
+			     },
+			     onFailure: function(transport)
+			     {
+				 appendLog('Reloading KML failed!');
+			     }
+		     }
+		     );
 }
 
 function reloadXML() {
-    new Ajax.Request('/flights.xml', {
-	    method: 'get',
-		onSuccess: function(transport) {
-		$('flights').update(transport.responseText);
-		appendLog('Reloaded XML.');
-	    },
-		onFailure: function(transport) {
-		appendLog('Reloading XML failed!');
-	    }
-    });
+    new Ajax.Request('/flights.xml',
+		     {
+			 method: 'get',
+			     onSuccess: function(transport)
+			     {
+				 $('flights').update(transport.responseText);
+				 appendLog('Reloaded XML.');
+			     },
+			     onFailure: function(transport)
+			     {
+				 appendLog('Reloading XML failed!');
+			     }
+		     }
+		     );
 }
 
 function reloadRO() {
@@ -75,9 +87,27 @@ function reloadRO() {
     reloadKML();
 }
 
+function updated() {
+    $('xmlForm').request('/flights.xml',
+			 {
+			     method: 'post',
+			     onSuccess: function(transport)
+				 {
+				     appendLog('Updated from textarea.');
+				     reloadRO();
+				 },
+				 onFailure: function(transport)
+				 {
+				     appendLog('Updating from textarea failed!');
+				 }
+			 }
+			 );
+}
+
 function loaded() {
     makeMenu();
     switchto(tabs[0]);
-    reloadFlights();
+    reloadXML();
+    reloadRO();
     appendLog('Interface loaded!');
 }
