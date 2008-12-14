@@ -11,7 +11,6 @@ geoflights = FlightsTracking.fromstring(flightsXML).geocode()
 urls = (
     '/', 'main',
     '/flights.xml', 'native',
-    '/import.xml', 'importfile',
     '/geoflights.xml', 'geonative',
     '/flights.kml', 'kml'
     )
@@ -31,14 +30,6 @@ class native:
         flights = FlightsTracking.fromstring(flightsXML)
         geoflights = FlightsTracking.fromstring(flightsXML).geocode()
         return "OK"
-
-class importfile:
-    def POST(self):
-        global flightsXML, flights, geoflights
-        flightsXML = web.debug(web.input()['xmlfile'].value)
-        flights = FlightsTracking.fromstring(flightsXML)
-        geoflights = FlightsTracking.fromstring(flightsXML).geocode()
-        return "OK"    
 
 class geonative:
     def GET(self):
