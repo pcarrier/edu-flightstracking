@@ -1,11 +1,15 @@
-html, body {
-    background-color:white;
-    color: black;
+html,body,h1,h2,h3,h4 {
     margin: 0;
     padding: 0;
 }
 
+html, body {
+    background-color:white;
+    color: black;
+}
+
 body {
+    margin: 1em;
     margin-top: 2em;
 }
 
@@ -19,13 +23,10 @@ a:hover {
     color: yellow;
 }
 
-body, div {
-    border: 1px dotted #aaa;
-}
-
-div {
-    background-color: #eee;
+div.bloc {
+    background-color: #ddd;
     color: #008;
+    border: 1px dotted #aaa;
 }
 
 div#menu
