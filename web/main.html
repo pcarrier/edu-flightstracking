@@ -12,20 +12,20 @@
   <body>
     <div id="menu" class="bloc">
       additional info::
-      <a href="/static/rapport.html">report</a>
-      <a href="/static/COPYING.txt">licence</a>
+      <a href="/static/report.html">report</a>
+      <a href="/static/COPYING.txt">COPYING</a>
     </div>
     <h1>flights tracking demo::</h1>
     <h2 id="xmltitle">XML</h2>
     <h2 id="geoxmltitle">GeoXML</h2>
-    <h2 id="kmltitle">Generated KML</h2>
+    <h2 id="kmltitle">KML</h2>
     <h2 id="maptitle">Google Maps</h2>
     <div class="clear"></div>
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
-	<form id="xmlForm" name="xmlForm">
+	<form id="xmlForm" name="xmlForm" action="/flights.xml">
 	  <div style="float:right;">
-	    <button onclick="updated();">Update</button>
+	    <a href="#" onclick="updated();">Update</a>
 	  </div>
 	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
