@@ -5,11 +5,12 @@ import web
 from flighttracking.flight import *
 
 flightsXML = open("../xml/examples/flights1.xml","r").read()
-flights = FlightsTracking(flightsXML)
+flights = FlightsTracking.fromstring(flightsXML)
 
 urls = (
     '/', 'main',
-    '/flights.xml', 'flights',
+    '/flights.xml', 'native',
+    '/geoflights.xml', 'geonative',
     '/flights.kml', 'kml'
     )
 
@@ -19,15 +20,21 @@ class main:
     def GET(self):
         web.redirect('/static/main.html')
 
-class flights:
+class native:
     def GET(self):
         return flights.tostring()
+    def POST(self):
+        pass
+
+class geonative:
+    def GET(self):
+        return flights.geocode().tostring()
     def POST(self):
         pass
     
 class kml:
     def GET(self):
-        return flights.tokml()
+        return flights.geocode().tokml()
 
 if __name__ == "__main__":
     app.run()

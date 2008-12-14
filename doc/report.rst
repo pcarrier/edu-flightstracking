@@ -15,7 +15,7 @@ Choix technologiques
 Python
 ------
 
-Nous avons le plaisir de pouvoir développer ce projet en Python, en alternative à Java initialement spécifié. Tous nos remerciements à Jacques Lemordant pour cette liberté.
+Nous avons eu le plaisir de pouvoir développer ce projet en Python, en alternative à Java initialement spécifié. Tous nos remerciements à Jacques Lemordant pour cette liberté.
 
 Ce document
 -----------
@@ -25,17 +25,17 @@ Dans la logique *pythoniste* donc, nous avons naturellement choisi le format reS
 Formats internes
 ----------------
 
-Nous avons décidé d'explorer nombre de langages utilisés professionnellement dans un contexte d'interopérabilité. Au-delà de ``XML`` (dont ``RELAX NG``, ``XSLT``/``XPath`` et ``XHTML``) dictés par le cahier des charges du projet, nous avons intégré ``JSON`` et ``Protocol Buffers``.
+Technologies ``W3C`` : ``XML`` (dont ``RELAX NG``, ``XSLT``/``XPath`` et ``XHTML``), CSS, ECMAScript.
 
 Assurance qualité
 -----------------
 
-Le choix s'est porté sur la réalisation de tests unitaires à l'aide du module ``unittest``.
+Réalisation de tests unitaires à l'aide du module ``unittest``.
 
 Interface
 ---------
 
-Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous nous sommes orientés vers Google Web Toolkit pour les excellentes Google API Libraries for Google Web Toolkit qui permettent l'intégration de Google Maps.
+Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec ``web.py`` en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous avons très largement utilisé la librairie ``prototype`` pour simplifier les interactions avec le ``DOM``. Les tests n'ont été effectués que sous Firefox et Midori, Internet Explorer est probablement très mal pris en charge.
 
 Performance
 -----------
