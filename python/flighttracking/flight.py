@@ -221,11 +221,11 @@ class FlightsTracking(object):
     def geocode(self):
         doc=self
         for loc in doc.locations:
-            print "Location : ",loc
+            #print "Location : ",loc
             lat, long,z=self._obtainLatLong(str(loc))
             if lat is not None and long is not None and z is not None:
                 loc.setCoordinates(lat,long,z)
-                print "LOC GEOCODED",loc.getcoordinates()
+                #print "LOC GEOCODED",loc.getcoordinates()
             else:
                 raise Exception, "Can't obtains Coordinates"
         #print doc.tostring()        
