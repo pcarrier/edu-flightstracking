@@ -109,6 +109,24 @@ function updated() {
 				);
 }
 
+function fileimport() {
+    ajax = $('fileForm').request(
+				{
+				    method: 'post',
+				    onSuccess: function(transport)
+				    {
+					appendLog('Updated from file.');
+					reloadXML();
+					reloadRO();
+				    },
+				    onFailure: function(transport)
+				    {
+					appendLog('Updating from file failed!');
+				    }
+				}
+				);
+}
+
 function loaded() {
     makeMenu();
     switchto(tabs[0]);

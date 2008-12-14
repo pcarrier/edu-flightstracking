@@ -32,9 +32,9 @@
 	<h3>File operations::</h3>
 	<div style="width:49%;float:left;">
 	  <h4>Upload</h4>
-	  <form method="post" action="">
-	    <input type="file" name="xmlfile"/>
-	    <input type="submit" value="Upload"/>
+	  <form id="fileForm" name="fileForm" action="/import.xml">
+	    <input type="file" id="xmlfile" name="xmlfile"/>
+	    <a href="#" onclick="fileimport();">Upload</a>
 	  </form>
 	</div>
 	<div style="width:49%;float:right;">
