@@ -1,13 +1,21 @@
-var onglets = new Array('xml','geoxml','kml','map');
+var tabs = new Array('xml','geoxml','kml','map');
 
-function switchto(onglet) {
-    for (var i = 0; i < onglets.length; i++) {
-    $(onglets[i] + 'title').removeClassName('active');
-    $(onglets[i] + 'content').removeClassName('active');
+function makeMenu() {
+    for (var i = 0; i < tabs.length; i++) {
+	$(tabs[i] + 'title').writeAttribute('href','#');
+	$(tabs[i] + 'title').writeAttribute('onclick','switchto(\''+tabs[i]+'\');');
     }
-    $(onglet + 'title').addClassName('active');
-    $(onglet + 'content').addClassName('active');
-    appendLog('Switched to ' + onglet);
+    appendLog('Menu generated.');
+}
+
+function switchto(tab) {
+    for (var i = 0; i < tabs.length; i++) {
+    $(tabs[i] + 'title').removeClassName('active');
+    $(tabs[i] + 'content').removeClassName('active');
+    }
+    $(tab + 'title').addClassName('active');
+    $(tab + 'content').addClassName('active');
+    appendLog('Switched to ' + tab);
 }
 
 function loadMap() {
@@ -23,21 +31,53 @@ function appendLog(text) {
     $('log').insert({'top': dateString + ": " + text + '\n'});
 }
 
-function reloadFlights() {
+function reloadGeoXML() {
+    new Ajax.Request('/geoflights.xml', {
+	    method: 'get',
+		onSuccess: function(transport) {
+		$('geoxml').update(transport.responseText.escapeHTML());
+		appendLog('Reloaded GeoXML.');
+	    },
+		onFailure: function(transport) {
+		appendLog('Reloading GeoXML failed!');
+	    }
+    });    
+}
+
+function reloadKML() {
+    new Ajax.Request('/flights.kml', {
+	    method: 'get',
+		onSuccess: function(transport) {
+		$('kml').update(transport.responseText.escapeHTML());
+		appendLog('Reloaded KML.');
+	    },
+		onFailure: function(transport) {
+		appendLog('Reloading KML failed!');
+	    }
+    });    
+}
+
+function reloadXML() {
     new Ajax.Request('/flights.xml', {
 	    method: 'get',
 		onSuccess: function(transport) {
 		$('flights').update(transport.responseText);
-		appendLog('Reloaded textarea.');
+		appendLog('Reloaded XML.');
 	    },
 		onFailure: function(transport) {
-		appendLog('Reloading textarea failed!');
+		appendLog('Reloading XML failed!');
 	    }
     });
 }
 
+function reloadRO() {
+    reloadGeoXML();
+    reloadKML();
+}
+
 function loaded() {
-    switchto(onglets[0]);
+    makeMenu();
+    switchto(tabs[0]);
     reloadFlights();
     appendLog('Interface loaded!');
 }

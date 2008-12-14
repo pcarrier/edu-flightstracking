@@ -12,21 +12,20 @@
   </head>
   <body>
     <div id="menu" class="bloc">
-      main operations::
-      <a href="/">reset server</a>
+      additional info::
       <a href="/static/rapport.html">report</a>
       <a href="/static/COPYING.txt">licence</a>
     </div>
     <h1>flights tracking demo::</h1>
-    <h2 href="#" id="xmltitle" onclick="switchto('xml');">XML</h2>
-    <h2 href="#" id="geoxmltitle" onclick="switchto('geoxml');">Geolocalized version</h2>
-    <h2 href="#" id="kmltitle" onclick="switchto('kml');">Generated KML</h2>
-    <h2 href="#" id="maptitle" onclick="switchto('map');">Google Maps</h2>
+    <h2 id="xmltitle">XML</h2>
+    <h2 id="geoxmltitle">GeoXML</h2>
+    <h2 id="kmltitle">Generated KML</h2>
+    <h2 id="maptitle">Google Maps</h2>
     <div class="clear"></div>
     <div id="main" class="bloc">
       <div id="xmlcontent" class="onglet" style="text-align:center;">
 	<form method="post" action="">
-	  <input type="submit" value="Modifier" style="float:right;"/> 
+	  <input type="submit" value="Update" style="float:right;"/> 
 	  <textarea rows="10" style="width:80%;" id="flights"></textarea>
 	</form>
 	<h3>File operations::</h3>
@@ -44,8 +43,10 @@
 	<div class="clear"></div>
       </div>
       <div id="geoxmlcontent" class="onglet">
+	<pre id="geoxml"></pre>
       </div>
       <div id="kmlcontent" class="onglet">
+	<pre id="kml"></pre>
       </div>
       <div id="mapcontent" class="onglet">
 	<div id="map">
