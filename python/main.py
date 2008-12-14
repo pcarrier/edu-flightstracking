@@ -25,7 +25,7 @@ class native:
     def GET(self):
         return flights.tostring()
     def POST(self):
-        global flights, flightsXML, geoflights
+        global flightsXML, flights, geoflights
         flightsXML = web.input().flights
         flights = FlightsTracking.fromstring(flightsXML)
         geoflights = FlightsTracking.fromstring(flightsXML).geocode()
@@ -33,10 +33,12 @@ class native:
 
 class geonative:
     def GET(self):
+        global geoflights
         return geoflights.tostring()
     
 class kml:
     def GET(self):
+        global geoflights
         return geoflights.tokml()
 
 if __name__ == "__main__":
