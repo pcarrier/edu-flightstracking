@@ -89,9 +89,18 @@ div.active {
     display: block;
 }
 
+pre#geoxml, pre#kml {
+    height: 20em;
+    overflow: auto;
+    background-color: white;
+    border: 1px dotted #aaa;
+}
+
 pre#log {
     color: #0F0;
     background-color: black;
     border: 2px dashed #0F0;
     padding: 0.5em;
+    height: 8em;
+    overflow: auto;
 }
