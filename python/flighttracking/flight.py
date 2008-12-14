@@ -27,15 +27,19 @@ class Location(object):
         else:
             self.__airport__ = airports[0]
     def setCoordinates(self, lat, long, z):
-        coordinates = self.__node__.xpath("./f:coordinates", namespaces={"f":FlightNS})
-        if len(coordinates) == 0:
+        #coordinates = self.__node__.xpath("./f:coordinates", namespaces={"f":FlightNS})
+        coordinates=self.__node__.find("coordinates")
+        if coordinates is None:
             E = Element("coordinates")
             E.text = "%s, %s, %s" % (lat, long, z)
             self.__node__.append(E)
+            print lat, long, z
         elif len(coordinates) == 1:
             coordinates[0].text = "%s, %s, %s" % (lat, long, z)
-        else:
-            raise Exception, "Multiple coordonnées pour un point"
+        elif len(coordinates)>1:
+            raise Exception, "Multiple coordonnees pour un point : %s occurences"%len(coordinates)
+    
+        
     def setName(self, name):
         self.__node__.set("name", name)
     def setAirportCode(self, code):
@@ -56,6 +60,8 @@ class Location(object):
             gates[0].set('name', gate)
         else:
             raise Exception, "Plusieurs portes trouvées"
+    def getcoordinates(self):
+        return self.__node__.find("coordinates").text
     def getNode(self):
         return self.__node__
     def getName(self):
@@ -213,13 +219,16 @@ class FlightsTracking(object):
             raise Exception,"Le ficher %s n'existe pas."%xsl_file
     
     def geocode(self):
-        doc=copy.deepcopy(self)
+        doc=self
         for loc in doc.locations:
+            print "Location : ",loc
             lat, long,z=self._obtainLatLong(str(loc))
             if lat is not None and long is not None and z is not None:
-                loc.setCoordinates(lat, long,z)
+                loc.setCoordinates(lat,long,z)
+                print "LOC GEOCODED",loc.getcoordinates()
             else:
                 raise Exception, "Can't obtains Coordinates"
+        print doc.tostring()        
         return doc
     def _obtainLatLong(self, place):
         rep=google.getResponse("Aéroport "+place)
