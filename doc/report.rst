@@ -1,3 +1,5 @@
+.. |google| image:: google.png
+
 ========================
 flighttracking en Python
 ========================
@@ -56,7 +58,24 @@ des données voulues.
 Etablissement du schéma RELAX-NG
 --------------------------------
 
+Représentation Objet de notre document XML
+------------------------------------------
+Nous avons développée des classes **python** ayant en charge toutes les opérations sur le document xml.
+La classe principale est la classe FlightTracking. Elle contient deux objets permettant d'effectuer les
+opérations sur les vols (**flights**) et les localisations (**locations**).
+Ces deux objets contiennent des listes d'objets **flight** et **location**.
+
+La classe **FlightTracking** contient la méthode **geocode**, celle-ci faisant les appels à notre interface
+du webservice de geocodage de |google|, situés dans le module **service**.
+
+Le diagramme UML de ces classes est donné ci-dessous :
+
+.. image:: flighttracking.png
+
+
 Geocodage des aéroports :
 -------------------------
 Nous avons développé un programme d'essais permettant de géocoder les   
 noeuds de type **location**
+
+Appelé demo_geocoder
