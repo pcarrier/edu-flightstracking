@@ -298,10 +298,12 @@ ul.auto-toc {
 <li><a class="reference internal" href="#assurance-qualit" id="id5">1.4&nbsp;&nbsp;&nbsp;Assurance qualité</a></li>
 <li><a class="reference internal" href="#interface" id="id6">1.5&nbsp;&nbsp;&nbsp;Interface</a></li>
 <li><a class="reference internal" href="#gestion-des-sources" id="id7">1.6&nbsp;&nbsp;&nbsp;Gestion des sources</a></li>
-<li><a class="reference internal" href="#etablissement-du-format-xml" id="id8">1.7&nbsp;&nbsp;&nbsp;Etablissement du format XML</a></li>
-<li><a class="reference internal" href="#etablissement-du-sch-ma-relax-ng" id="id9">1.8&nbsp;&nbsp;&nbsp;Etablissement du schéma RELAX-NG</a></li>
-<li><a class="reference internal" href="#repr-sentation-objet-de-notre-document-xml" id="id10">1.9&nbsp;&nbsp;&nbsp;Représentation Objet de notre document XML</a></li>
+<li><a class="reference internal" href="#tablissement-du-format-xml" id="id8">1.7&nbsp;&nbsp;&nbsp;Établissement du format XML</a></li>
+<li><a class="reference internal" href="#tablissement-du-sch-ma-relax-ng" id="id9">1.8&nbsp;&nbsp;&nbsp;Établissement du schéma RELAX-NG</a></li>
+<li><a class="reference internal" href="#repr-sentation-objet-de-notre-document-xml" id="id10">1.9&nbsp;&nbsp;&nbsp;Représentation objet de notre document XML</a></li>
 <li><a class="reference internal" href="#geocodage-des-a-roports" id="id11">1.10&nbsp;&nbsp;&nbsp;Geocodage des aéroports :</a></li>
+<li><a class="reference internal" href="#transformation-en-kml" id="id12">1.11&nbsp;&nbsp;&nbsp;Transformation en KML</a></li>
+<li><a class="reference internal" href="#programmes-interm-diaires" id="id13">1.12&nbsp;&nbsp;&nbsp;Programmes intermédiaires.</a></li>
 </ul>
 </li>
 </ul>
@@ -326,45 +328,55 @@ ul.auto-toc {
 </div>
 <div class="section" id="interface">
 <h2><a class="toc-backref" href="#id6">1.5&nbsp;&nbsp;&nbsp;Interface</a></h2>
-<p>Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec <tt class="docutils literal"><span class="pre">web.py</span></tt> en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous avons très largement utilisé la librairie <tt class="docutils literal"><span class="pre">prototype</span></tt> pour simplifier les interactions avec le <tt class="docutils literal"><span class="pre">DOM</span></tt>. Les tests n'ont été effectués que sous Firefox et Midori, Internet Explorer est probablement très mal pris en charge.</p>
+<p>Puisque l'ébauche du cahier des charges suggérait un déploiement Web, nous avons anticipé en travaillant directement sur une solution entièrement Web, avec <tt class="docutils literal"><span class="pre">web.py</span></tt> en raison de sa simplicité et du minimum d'abstractions impliquées. De plus, nous avons très largement utilisé la librairie <tt class="docutils literal"><span class="pre">prototype</span></tt> pour simplifier les interactions avec le <tt class="docutils literal"><span class="pre">DOM</span></tt>. Les tests n'ont été effectués que sous Firefox et Midori (WebKit), Internet Explorer est probablement très mal pris en charge.</p>
 </div>
 <div class="section" id="gestion-des-sources">
 <h2><a class="toc-backref" href="#id7">1.6&nbsp;&nbsp;&nbsp;Gestion des sources</a></h2>
 <p>Ce projet fut également l'occasion d'expérimenter avec les méthodologies de développement. Nous avons notamment délégué la gestion des sources à <tt class="docutils literal"><span class="pre">git</span></tt>.</p>
 </div>
-<div class="section" id="etablissement-du-format-xml">
-<h2><a class="toc-backref" href="#id8">1.7&nbsp;&nbsp;&nbsp;Etablissement du format XML</a></h2>
-<p>Notre premier travail fût d'établir un format XML cohérent avec la représeantation
-des données voulues.
-D'après l'énoncé, et le site nous avons établi le document XML suivant :</p>
+<div class="section" id="tablissement-du-format-xml">
+<h2><a class="toc-backref" href="#id8">1.7&nbsp;&nbsp;&nbsp;Établissement du format XML</a></h2>
+<p>Notre premier travail fût d'établir un format XML cohérent avec la représentation des données voulues.
+D'après l'énoncé et le site nous avons établi le document XML suivant :</p>
 </div>
-<div class="section" id="etablissement-du-sch-ma-relax-ng">
-<h2><a class="toc-backref" href="#id9">1.8&nbsp;&nbsp;&nbsp;Etablissement du schéma RELAX-NG</a></h2>
-<p>Nous avons par la suite développé le diagramme relax-ng <strong>tracking.rng</strong>, situé dans le répertoire rng.</p>
+<div class="section" id="tablissement-du-sch-ma-relax-ng">
+<h2><a class="toc-backref" href="#id9">1.8&nbsp;&nbsp;&nbsp;Établissement du schéma RELAX-NG</a></h2>
+<p>Nous avons par la suite développé le diagramme relax-ng <strong>tracking.rng</strong>, situé dans le répertoire <tt class="docutils literal"><span class="pre">rng/</span></tt>.</p>
 </div>
 <div class="section" id="repr-sentation-objet-de-notre-document-xml">
-<h2><a class="toc-backref" href="#id10">1.9&nbsp;&nbsp;&nbsp;Représentation Objet de notre document XML</a></h2>
-<p>Nous avons développée des classes <strong>python</strong> ayant en charge toutes les opérations sur le document xml.
-La classe principale est la classe FlightTracking. Elle contient deux objets permettant d'effectuer les
-opérations sur les vols et les localisations.
-Ces deux objets contiennent des listes d'objets <strong>flight</strong> et <strong>location</strong>, indexés par leur nom.
-Nous avons choisis d'implémenter des méthodes d'ajout et de suppression, afin de garder une cohérence
-sur l'indéxation de ces objets lors d'un changement de nom.</p>
-<p>La classe <strong>FlightTracking</strong> contient la méthode <strong>geocode</strong>, celle-ci faisant les appels à notre interface
-du webservice de geocodage de <img alt="google" src="google.png" />, situés dans le module <strong>service</strong>.</p>
+<h2><a class="toc-backref" href="#id10">1.9&nbsp;&nbsp;&nbsp;Représentation objet de notre document XML</a></h2>
+<p>Nous avons développé des classes <tt class="docutils literal"><span class="pre">python</span></tt> ayant en charge toutes les opérations sur le document XML.</p>
+<p>La classe principale est la classe FlightTracking. Elle contient deux objets permettant d'effectuer les
+opérations sur les vols et les localisations.</p>
+<p>Ces deux objets contiennent des listes d'objets <strong>flight</strong> et <strong>location</strong>, indexés par leur nom.</p>
+<p>Nous avons choisi d'implémenter des méthodes d'ajout et de suppression, afin de garder une cohérence
+sur l'indexation de ces objets lors d'un changement de nom. L'édition dans l'interface Web n'a pas
+été implémentée faute de temps.</p>
+<p>La classe <strong>FlightTracking</strong> contient la méthode <strong>geocode</strong> qui fait appel à l'interface
+au webservice de géocodage de <img alt="google" src="google.png" /> située dans le module <strong>service</strong>.</p>
 <p>Le diagramme UML de ces classes est donné ci-dessous :</p>
 <img alt="flighttracking.png" src="flighttracking.png" />
 </div>
 <div class="section" id="geocodage-des-a-roports">
 <h2><a class="toc-backref" href="#id11">1.10&nbsp;&nbsp;&nbsp;Geocodage des aéroports :</a></h2>
-<p>Nous avons développé un programme d'essais permettant de géocoder les
-noeuds de type <strong>location</strong></p>
-<p>Appelé <strong>demo_geocoder</strong>, effectue des opérations simples :</p>
+<p>Nous avons développé un programme d'essais permettant de géocoder les noeuds de type <strong>location</strong></p>
+<p>Appelé <strong>demo_geocoder</strong>, il effectue des opérations simples :</p>
 <ol class="arabic simple">
-<li>Chargement du fichier xml en mémoire ;</li>
+<li>Chargement du fichier XML en mémoire ;</li>
 <li>Geocodage et ajout d'un noeud <strong>coordinates</strong> pour chaque noeud <strong>location</strong> ;</li>
-<li>Sauvegarde dans un fichier ;</li>
+<li>Sauvegarde dans un fichier.</li>
 </ol>
+</div>
+<div class="section" id="transformation-en-kml">
+<h2><a class="toc-backref" href="#id12">1.11&nbsp;&nbsp;&nbsp;Transformation en KML</a></h2>
+<p>Afin de transformer notre document xml en document kml, nous avons écrit la feuille de style xslgeo2kml.xsl,
+située dans le répertoire <tt class="docutils literal"><span class="pre">xsl/</span></tt>.</p>
+</div>
+<div class="section" id="programmes-interm-diaires">
+<h2><a class="toc-backref" href="#id13">1.12&nbsp;&nbsp;&nbsp;Programmes intermédiaires.</a></h2>
+<p>Comme demandé dans l'énnoncé, nous avons au cour de notre développement crées de simples scripts utilisants
+la librairie python <tt class="docutils literal"><span class="pre">lxml</span></tt> afin d'appliquer  le geocodage et d'appliquer le fichier <strong>xsl</strong> décrit plus haut.
+Ces deux scripts (valid.py et transform.py) sont situés dans le répertoire <tt class="docutils literal"><span class="pre">python</span></tt>.</p>
 </div>
 </div>
 </div>

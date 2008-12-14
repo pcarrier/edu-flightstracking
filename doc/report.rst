@@ -92,10 +92,11 @@ Appelé **demo_geocoder**, il effectue des opérations simples :
 Transformation en KML
 ---------------------
 
+Afin de transformer notre document xml en document kml, nous avons écrit la feuille de style ``xsl/geo2kml.xsl``.
+
 
 Programmes intermédiaires.
 --------------------------
 Comme demandé dans l'énnoncé, nous avons au cour de notre développement crées de simples scripts utilisants
 la librairie python ``lxml`` afin d'appliquer  le geocodage et d'appliquer le fichier **xsl** décrit plus haut.
-Ces deux scripts sont situés dans le répertoire 
-
+Ces deux scripts (valid.py et transform.py) sont situés dans le répertoire ``python``.
