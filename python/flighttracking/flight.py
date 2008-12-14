@@ -202,7 +202,7 @@ class FlightsTracking(object):
         return self.__node__
     def __getitem__(self, attr):
         return getattr(self, "___%s___" % attr)
-    def toString(self):
+    def tostring(self):
         return tostring(self.__node__)
     
     def apply_xsl(self, xsl_file):
@@ -241,7 +241,7 @@ class FlightsTracking(object):
         return self.apply_xsl(xsltfile)
 
     @classmethod
-    def fromString(cls, xmlString):
+    def fromstring(cls, xmlString):
         xml_doc = etree.XML(xmlString)
         T = FlightsTracking(xml_doc)
         return T
